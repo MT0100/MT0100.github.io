@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrewGenius - Smart Coffee Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#4F46E5',secondary:'#10B981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Poppins', sans-serif;
+scroll-behavior: smooth;
+-webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 640px) {
+.container {
+max-width: 100%;
+}
+}
+.story-slider {
+-webkit-overflow-scrolling: touch;
+}
+.gradient-bg {
+background: linear-gradient(135deg, #4F46E5 0%, #10B981 100%);
+}
+.floating {
+animation: float 6s ease-in-out infinite;
+}
+.floating-delayed {
+animation: float 6s ease-in-out 2s infinite;
+}
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-20px); }
+100% { transform: translateY(0px); }
+}
+.feature-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-card:hover {
+transform: translateY(-10px);
+box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.cta-button {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+animation: pulse 2s infinite;
+}
+.cta-button:hover {
+animation: none;
+transform: scale(1.05);
+}
+@keyframes pulse {
+0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.7); }
+70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+.parallax {
+background-attachment: fixed;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+.fade-in {
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.product-image {
+transition: transform 0.5s ease;
+}
+.product-image:hover {
+transform: rotate(5deg);
+}
+input[type="checkbox"] {
+appearance: none;
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+border: 2px solid #4F46E5;
+border-radius: 4px;
+outline: none;
+cursor: pointer;
+position: relative;
+}
+input[type="checkbox"]:checked {
+background-color: #4F46E5;
+}
+input[type="checkbox"]:checked::after {
+content: "";
+position: absolute;
+top: 2px;
+left: 6px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+input[type="email"], input[type="text"], textarea {
+outline: none;
+}
+input[type="email"]:focus, input[type="text"]:focus, textarea:focus {
+border-color: #4F46E5;
+box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 50px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 34px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 16px;
+width: 16px;
+left: 4px;
+bottom: 4px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: #4F46E5;
+}
+input:focus + .slider {
+box-shadow: 0 0 1px #4F46E5;
+}
+input:checked + .slider:before {
+transform: translateX(26px);
+}
+.story-slider {
+scroll-behavior: smooth;
+scrollbar-width: none;
+}
+.story-slider::-webkit-scrollbar {
+display: none;
+}
+.story-card {
+min-width: 280px;
+transition: all 0.5s ease;
+}
+.story-card.active {
+transform: scale(1.02);
+opacity: 1;
+}
+.story-card.inactive {
+transform: scale(0.98);
+opacity: 0.7;
+}
+.story-card:hover {
+transform: scale(1.03);
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<!-- Header -->
+<header class="fixed w-full bg-white bg-opacity-0 z-50 transition-all duration-300">
+<div class="container mx-auto px-6 py-4 flex justify-between items-center">
+<a href="#" class="text-3xl font-['Pacifico'] text-primary hover:opacity-80 transition-opacity">BrewGenius</a>
+<nav class="hidden md:flex space-x-4 lg:space-x-8">
+<a href="#features" class="nav-link text-gray-700 hover:text-primary font-medium transition relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full text-sm lg:text-base">Features</a>
+<a href="#details" class="nav-link text-gray-700 hover:text-primary font-medium transition relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full text-sm lg:text-base">Details</a>
+<a href="#experience" class="nav-link text-gray-700 hover:text-primary font-medium transition relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full text-sm lg:text-base">Experience</a>
+<a href="#pricing" class="nav-link text-gray-700 hover:text-primary font-medium transition relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full text-sm lg:text-base">Pricing</a>
+</nav>
+<div class="flex items-center space-x-4">
+<a href="#order" class="hidden md:block px-6 py-2 bg-primary text-white font-medium !rounded-button shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 whitespace-nowrap">Pre-order Now</a>
+<button class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700 hover:bg-gray-100 rounded-full transition-colors" id="mobileMenuButton" aria-label="Menu">
+<i class="ri-menu-line ri-lg"></i>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="hidden md:hidden bg-white w-full py-4 px-6 shadow-md">
+<div class="flex flex-col space-y-4">
+<a href="#features" class="text-gray-700 hover:text-primary font-medium transition">Features</a>
+<a href="#details" class="text-gray-700 hover:text-primary font-medium transition">Details</a>
+<a href="#experience" class="text-gray-700 hover:text-primary font-medium transition">Experience</a>
+<a href="#pricing" class="text-gray-700 hover:text-primary font-medium transition">Pricing</a>
+<a href="#order" class="px-6 py-2 bg-primary text-white font-medium !rounded-button shadow-md hover:shadow-lg transition text-center whitespace-nowrap">Pre-order Now</a>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative min-h-[100svh] flex items-center overflow-hidden" style="background-image: url('https://readdy.ai/api/search-image?query=Elegant%2520and%2520modern%2520abstract%2520background%2520with%2520smooth%2520gradient%2520transitions%2520from%2520deep%2520blue%2520to%2520purple.%2520Clean%2520design%2520with%2520subtle%2520flowing%2520shapes%2520and%2520soft%2520geometric%2520patterns.%2520The%2520left%2520side%2520has%2520a%2520darker%2520gradient%2520overlay%2520while%2520the%2520right%2520side%2520remains%2520lighter.%2520No%2520text%2520or%2520additional%2520elements.%2520Premium%2520and%2520professional%2520look.&width=1920&height=1080&seq=hero2&orientation=landscape'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-transparent"></div>
+<div class="container mx-auto px-4 sm:px-6 py-12 sm:py-20 pt-24 sm:pt-20 relative z-10 flex flex-col md:flex-row items-center w-full min-h-[calc(100vh+40px)] sm:min-h-[calc(100vh-80px)]">
+<div class="md:w-1/2 text-center md:text-left mb-8 sm:mb-16 md:mb-0 px-4 sm:px-0 pt-4 sm:pt-12">
+<h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 sm:mb-6">Rediscover Coffee with AI-Powered Innovation</h1>
+<p class="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8">Your smart assistant that learns your preferences and brews the perfect cup every time</p>
+<a href="#order" class="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white font-bold text-base sm:text-lg !rounded-button shadow-lg cta-button whitespace-nowrap">Pre-order Now</a>
+<div class="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
+<div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-timer-line text-white"></i>
+</div>
+<span class="text-white">Ready in 45 seconds</span>
+</div>
+<div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-wifi-line text-white"></i>
+</div>
+<span class="text-white">Wi-Fi enabled</span>
+</div>
+<div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-database-2-line text-white"></i>
+</div>
+<span class="text-white">100+ recipes</span>
+</div>
+</div>
+</div>
+<div class="md:w-1/2 flex justify-center mt-6 md:mt-0">
+<div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
+<img src="https://readdy.ai/api/search-image?query=Photorealistic%25203D%2520render%2520of%2520a%2520sleek%2C%2520modern%2520smart%2520coffee%2520machine%2520with%2520a%2520touchscreen%2520display%2C%2520minimalist%2520design%2C%2520premium%2520metallic%2520finish%2C%2520transparent%2520water%2520reservoir%2C%2520and%2520subtle%2520blue%2520LED%2520lighting.%2520The%2520machine%2520looks%2520high-tech%2520but%2520elegant%2C%2520suitable%2520for%2520a%2520modern%2520kitchen.%2520Clean%2520background%2520with%2520soft%2520shadows.&width=800&height=800&seq=product1&orientation=squarish" alt="BrewGenius Akıllı Kahve Makinesi" class="w-full h-full object-contain object-top product-image">
+<div class="absolute -top-6 sm:-top-10 -right-6 sm:-right-10 w-16 sm:w-20 h-16 sm:h-20 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm p-2 floating">NEW GEN</div>
+<div class="absolute -bottom-4 sm:-bottom-5 -left-4 sm:-left-5 w-20 sm:w-24 h-20 sm:h-24 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm p-2 floating-delayed">AI</div>
+</div>
+</div>
+</div>
+<div class="hidden sm:block absolute bottom-2 sm:bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
+<a href="#features" class="w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-sm rounded-full">
+<i class="ri-arrow-down-line text-white"></i>
+</a>
+</div>
+</section>
+<!-- Features Section -->
+<section id="features" class="py-20 bg-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Meet the Smart Features</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">BrewGenius is equipped with innovative technologies that will completely transform your coffee experience.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+<!-- Feature 1 -->
+<div class="feature-card bg-white p-8 rounded-lg shadow-md border border-gray-100">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-6 mx-auto md:mx-0">
+<i class="ri-brain-line text-primary ri-2x"></i>
+</div>
+<h3 class="text-2xl font-bold text-gray-900 mb-4 text-center md:text-left">AI-Powered Control</h3>
+<p class="text-gray-600 text-center md:text-left">Advanced AI technology learns your preferences and brews the perfect cup every time. The system continuously optimizes itself based on your drinking habits.</p>
+</div>
+<!-- Feature 2 -->
+<div class="feature-card bg-white p-8 rounded-lg shadow-md border border-gray-100">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-6 mx-auto md:mx-0">
+<i class="ri-remote-control-line text-primary ri-2x"></i>
+</div>
+<h3 class="text-2xl font-bold text-gray-900 mb-4 text-center md:text-left">Remote Access</h3>
+<p class="text-gray-600 text-center md:text-left">Prepare your coffee from anywhere with our mobile app. Have your perfect brew ready before you even get out of bed.</p>
+</div>
+<!-- Feature 3 -->
+<div class="feature-card bg-white p-8 rounded-lg shadow-md border border-gray-100">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-6 mx-auto md:mx-0">
+<i class="ri-file-list-3-line text-primary ri-2x"></i>
+</div>
+<h3 class="text-2xl font-bold text-gray-900 mb-4 text-center md:text-left">Personalized Recipes</h3>
+<p class="text-gray-600 text-center md:text-left">Choose from over 100 coffee recipes or create your own. The system suggests new recipes based on your taste preferences.</p>
+</div>
+</div>
+<div class="mt-16 text-center">
+<div class="inline-flex items-center justify-center p-1 bg-gray-100 rounded-full">
+<span class="px-6 py-2 bg-primary text-white rounded-full font-medium">98%</span>
+<span class="px-6 py-2 text-gray-700">Customer Satisfaction</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Details Section -->
+<section id="details" class="py-20 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Superior Technology, Elegant Design</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Meticulously crafted in every detail, BrewGenius will be the new star of your kitchen.</p>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-8 sm:gap-12">
+<div class="md:w-1/2 relative">
+<div class="relative w-full h-96 overflow-hidden rounded-lg shadow-xl">
+<img id="productImage" src="https://readdy.ai/api/search-image?query=Close-up%2520detail%2520of%2520a%2520premium%2520smart%2520coffee%2520machine%2520with%2520focus%2520on%2520the%2520touchscreen%2520interface%2520showing%2520coffee%2520selection%2520menu.%2520The%2520machine%2520has%2520a%2520brushed%2520metal%2520finish%2C%2520elegant%2520design%2C%2520and%2520subtle%2520blue%2520LED%2520accent%2520lighting.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520and%2520clean%2520background.&width=800&height=600&seq=product2&orientation=landscape" alt="BrewGenius Detay" class="w-full h-full object-cover object-top">
+</div>
+<div class="absolute -bottom-5 -right-5 bg-white p-4 rounded-lg shadow-lg">
+<div class="flex space-x-2">
+<button class="w-3 h-3 rounded-full bg-primary" data-image="https://readdy.ai/api/search-image?query=Close-up%2520detail%2520of%2520a%2520premium%2520smart%2520coffee%2520machine%2520with%2520focus%2520on%2520the%2520touchscreen%2520interface%2520showing%2520coffee%2520selection%2520menu.%2520The%2520machine%2520has%2520a%2520brushed%2520metal%2520finish%2C%2520elegant%2520design%2C%2520and%2520subtle%2520blue%2520LED%2520accent%2520lighting.%2520Professional%2520product%2520photography%2520with%2520soft%2520lighting%2520and%2520clean%2520background.&width=800&height=600&seq=product2&orientation=landscape"></button>
+<button class="w-3 h-3 rounded-full bg-gray-300" data-image="https://readdy.ai/api/search-image?query=Side%2520view%2520of%2520a%2520modern%2520smart%2520coffee%2520machine%2520showing%2520its%2520sleek%2520profile%2C%2520water%2520tank%2C%2520and%2520coffee%2520bean%2520container.%2520The%2520machine%2520has%2520a%2520premium%2520look%2520with%2520matte%2520black%2520and%2520silver%2520accents.%2520Professional%2520product%2520photography%2520on%2520a%2520clean%2520background%2520with%2520soft%2520shadows.&width=800&height=600&seq=product3&orientation=landscape"></button>
+<button class="w-3 h-3 rounded-full bg-gray-300" data-image="https://readdy.ai/api/search-image?query=Top-down%2520view%2520of%2520a%2520high-tech%2520coffee%2520machine%2520brewing%2520coffee%2520into%2520a%2520cup.%2520Steam%2520rising%2C%2520rich%2520coffee%2520color%2C%2520and%2520the%2520machines%2520premium%2520controls%2520visible.%2520Professional%2520product%2520photography%2520with%2520dramatic%2520lighting%2520highlighting%2520the%2520brewing%2520process.&width=800&height=600&seq=product4&orientation=landscape"></button>
+</div>
+</div>
+</div>
+<div class="md:w-1/2">
+<h3 class="text-2xl font-bold text-gray-900 mb-6">Technical Specifications</h3>
+<div class="space-y-6">
+<div class="fade-in">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1">
+<i class="ri-cpu-line text-primary"></i>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900">Powerful Processor</h4>
+<p class="text-gray-600">Fast and intelligent coffee preparation with 2.4 GHz quad-core processor</p>
+</div>
+</div>
+</div>
+<div class="fade-in">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1">
+<i class="ri-water-flash-line text-primary"></i>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900">Precise Temperature Control</h4>
+<p class="text-gray-600">Adjustable water temperature between 185-205°F with 0.1°F precision</p>
+</div>
+</div>
+</div>
+<div class="fade-in">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1">
+<i class="ri-database-2-line text-primary"></i>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900">Large Capacity</h4>
+<p class="text-gray-600">40 oz water tank and 8.8 oz bean hopper</p>
+</div>
+</div>
+</div>
+<div class="fade-in">
+<div class="flex items-start">
+<div class="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-4 mt-1">
+<i class="ri-wifi-line text-primary"></i>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900">Connectivity Features</h4>
+<p class="text-gray-600">Wi-Fi, Bluetooth 5.0, and voice assistant integration</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<h4 class="text-lg font-semibold text-gray-900 mb-4">Customizable Settings</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+<span class="text-gray-700">Auto Start</span>
+</div>
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+<span class="text-gray-700">Energy Saver</span>
+</div>
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+<span class="text-gray-700">Voice Notifications</span>
+</div>
+<div class="flex items-center">
+<label class="custom-switch mr-3">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+<span class="text-gray-700">Night Mode</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-20 bg-white p-8 rounded-lg shadow-md">
+<h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Materials and Dimensions</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+<div class="text-center">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4 mx-auto">
+<i class="ri-scales-3-line text-primary ri-2x"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">Dimensions</h4>
+<p class="text-gray-600">9.8" x 13.8" x 15.7"</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4 mx-auto">
+<i class="ri-drop-line text-primary ri-2x"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">Material</h4>
+<p class="text-gray-600">Brushed Stainless Steel, Tempered Glass</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-full mb-4 mx-auto">
+<i class="ri-paint-brush-line text-primary ri-2x"></i>
+</div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">Color Options</h4>
+<div class="flex justify-center space-x-2 mt-2">
+<div class="w-6 h-6 rounded-full bg-gray-800 border-2 border-white shadow"></div>
+<div class="w-6 h-6 rounded-full bg-gray-400 border-2 border-white shadow"></div>
+<div class="w-6 h-6 rounded-full bg-primary border-2 border-white shadow"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- User Experience Section -->
+<section id="experience" class="py-20 bg-white">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Exceptional User Experience</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Making coffee has never been easier or more enjoyable than with BrewGenius.</p>
+</div>
+<!-- User Stories -->
+<div class="relative mb-20">
+<div class="story-slider flex overflow-x-auto pb-12 -mx-4 px-4">
+<!-- Story 1 -->
+<div class="story-card flex-shrink-0 mx-4 bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 w-[400px]">
+<img src="https://readdy.ai/api/search-image?query=Happy%2520young%2520professional%2520woman%2520enjoying%2520coffee%2520in%2520a%2520modern%2520kitchen%2C%2520smiling%2520at%2520her%2520smart%2520coffee%2520machine.%2520Natural%2520morning%2520light%2C%2520cozy%2520atmosphere%2C%2520professional%2520photography%2520with%2520shallow%2520depth%2520of%2520field.%2520The%2520woman%2520has%2520a%2520genuine%2520expression%2520of%2520satisfaction.&width=400&height=300&seq=user1&orientation=landscape" alt="Kullanıcı Hikayesi 1" class="w-full h-80 object-cover object-center">
+<div class="p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+<i class="ri-user-smile-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900">Sarah Thompson</h4>
+<p class="text-sm text-gray-500">New York</p>
+</div>
+</div>
+<p class="text-gray-600">"Mornings are so much better now. I start my coffee from the app before I wake up, and a perfect cup is waiting for me when I get out of bed."</p>
+</div>
+</div>
+<!-- Story 2 -->
+<div class="story-card flex-shrink-0 mx-4 bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 w-[400px]">
+<img src="https://readdy.ai/api/search-image?query=Professional%2520man%2520in%2520business%2520casual%2520attire%2520using%2520a%2520smartphone%2520app%2520to%2520control%2520his%2520smart%2520coffee%2520machine%2520in%2520a%2520modern%2520apartment.%2520The%2520coffee%2520machine%2520is%2520brewing%2520in%2520the%2520background.%2520Natural%2520lighting%2C%2520contemporary%2520interior%2520design%2C%2520professional%2520photography.&width=400&height=300&seq=user2&orientation=landscape" alt="Kullanıcı Hikayesi 2" class="w-full h-80 object-cover object-top">
+<div class="p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+<i class="ri-user-smile-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900">Michael Anderson</h4>
+<p class="text-sm text-gray-500">San Francisco</p>
+</div>
+</div>
+<p class="text-gray-600">"The AI feature is truly impressive. Over time, it learned exactly how I like my coffee, and now every cup is perfect."</p>
+</div>
+</div>
+<!-- Story 3 -->
+<div class="story-card flex-shrink-0 mx-4 bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 w-[400px]">
+<img src="https://readdy.ai/api/search-image?query=Young%2520couple%2520enjoying%2520coffee%2520together%2520in%2520a%2520stylish%2520living%2520room%2C%2520looking%2520at%2520their%2520smart%2520coffee%2520machine%2520with%2520appreciation.%2520Warm%2520morning%2520light%2C%2520contemporary%2520home%2520decor%2C%2520professional%2520lifestyle%2520photography%2520with%2520natural%2520expressions%2520and%2520genuine%2520smiles.&width=400&height=300&seq=user3&orientation=landscape" alt="Kullanıcı Hikayesi 3" class="w-full h-80 object-cover object-top">
+<div class="p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+<i class="ri-user-smile-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900">Emily and James</h4>
+<p class="text-sm text-gray-500">Seattle</p>
+</div>
+</div>
+<p class="text-gray-600">"We have different coffee preferences, but BrewGenius makes perfect cups for both of us. Our guests are always amazed by this technology."</p>
+</div>
+</div>
+<!-- Story 4 -->
+<div class="story-card flex-shrink-0 mx-4 bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 w-[400px]">
+<img src="https://readdy.ai/api/search-image?query=Senior%2520man%2520with%2520glasses%2520smiling%2520while%2520using%2520a%2520modern%2520smart%2520coffee%2520machine%2520in%2520a%2520bright%2520kitchen.%2520The%2520interface%2520is%2520clearly%2520visible%2520and%2520he%2520appears%2520comfortable%2520with%2520the%2520technology.%2520Warm%2C%2520inviting%2520atmosphere%2C%2520professional%2520photography%2520with%2520soft%2520natural%2520lighting.&width=400&height=300&seq=user4&orientation=landscape" alt="Kullanıcı Hikayesi 4" class="w-full h-80 object-cover object-top">
+<div class="p-6">
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-3">
+<i class="ri-user-smile-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-semibold text-gray-900">Robert Miller</h4>
+<p class="text-sm text-gray-500">Boston</p>
+</div>
+</div>
+<p class="text-gray-600">"I'm not very tech-savvy, but BrewGenius is so easy to use. I can make my coffee using voice commands, it's an amazing experience."</p>
+</div>
+</div>
+</div>
+<button class="absolute left-0 top-1/2 transform -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md z-10 ml-2 story-nav" data-direction="prev">
+<i class="ri-arrow-left-s-line text-gray-700"></i>
+</button>
+<button class="absolute right-0 top-1/2 transform -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-md z-10 mr-2 story-nav" data-direction="next">
+<i class="ri-arrow-right-s-line text-gray-700"></i>
+</button>
+</div>
+<!-- App Screenshots -->
+<div class="bg-gray-50 rounded-lg p-8 md:p-12">
+<div class="text-center mb-12">
+<h3 class="text-2xl font-bold text-gray-900 mb-4">Full Control with Mobile App</h3>
+<p class="text-gray-600 max-w-2xl mx-auto">Control your coffee machine from anywhere with the BrewGenius mobile app, discover new recipes, and receive personalized recommendations.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<div class="w-64 bg-white rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=Smartphone%2520screen%2520showing%2520a%2520modern%2C%2520clean%2520coffee%2520app%2520interface%2520with%2520coffee%2520selection%2520menu.%2520The%2520app%2520has%2520a%2520dark%2520theme%2520with%2520blue%2520accents%2C%2520showing%2520different%2520coffee%2520types%2520with%2520small%2520icons%2C%2520and%2520a%2520prominent%2520brew%2520button.%2520Professional%2520UI%2520design%2520mockup%2520with%2520high%2520attention%2520to%2520detail.&width=300&height=600&seq=app1&orientation=portrait" alt="Uygulama Ekranı 1" class="w-full h-auto">
+</div>
+<div class="w-64 bg-white rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=Smartphone%2520screen%2520showing%2520a%2520coffee%2520app%2520scheduling%2520interface%2520with%2520time%2520picker%2520and%2520calendar%2520view.%2520The%2520app%2520has%2520a%2520dark%2520theme%2520with%2520blue%2520accents%2C%2520showing%2520weekly%2520schedule%2520options%2520and%2520alarm%2520settings.%2520Professional%2520UI%2520design%2520mockup%2520with%2520high%2520attention%2520to%2520detail.&width=300&height=600&seq=app2&orientation=portrait" alt="Uygulama Ekranı 2" class="w-full h-auto">
+</div>
+<div class="w-64 bg-white rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=Smartphone%2520screen%2520showing%2520a%2520coffee%2520app%2520recipe%2520creation%2520interface%2520with%2520sliders%2520for%2520strength%2C%2520temperature%2C%2520and%2520volume.%2520The%2520app%2520has%2520a%2520dark%2520theme%2520with%2520blue%2520accents%2C%2520showing%2520customization%2520options%2520and%2520save%2520button.%2520Professional%2520UI%2520design%2520mockup%2520with%2520high%2520attention%2520to%2520detail.&width=300&height=600&seq=app3&orientation=portrait" alt="Uygulama Ekranı 3" class="w-full h-auto">
+</div>
+</div>
+<div class="flex justify-center mt-12 space-x-6">
+<a href="#" class="flex items-center px-6 py-3 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition whitespace-nowrap">
+<div class="w-8 h-8 flex items-center justify-center mr-2">
+<i class="ri-apple-fill ri-lg"></i>
+</div>
+<div>
+<div class="text-xs">Download on</div>
+<div class="text-sm font-semibold">App Store</div>
+</div>
+</a>
+<a href="#" class="flex items-center px-6 py-3 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition whitespace-nowrap">
+<div class="w-8 h-8 flex items-center justify-center mr-2">
+<i class="ri-google-play-fill ri-lg"></i>
+</div>
+<div>
+<div class="text-xs">Get it on</div>
+<div class="text-sm font-semibold">Google Play</div>
+</div>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section id="pricing" class="py-20 bg-gray-50">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Pricing</h2>
+<p class="text-xl text-gray-600 max-w-3xl mx-auto">Special pricing and benefits for limited pre-orders.</p>
+</div>
+<div class="max-w-4xl mx-auto">
+<div class="bg-white rounded-lg shadow-xl overflow-hidden">
+<div class="bg-primary p-8 text-center">
+<h3 class="text-2xl font-bold text-white mb-2">Early Bird Special</h3>
+<p class="text-white/80">Valid for first 500 orders</p>
+<div class="mt-6 flex justify-center">
+<div class="text-5xl font-bold text-white">$599</div>
+<div class="ml-2 flex flex-col justify-end pb-1">
+<span class="text-white/80 line-through">$749</span>
+<span class="text-white bg-secondary px-2 py-0.5 rounded text-xs font-bold">20% OFF</span>
+</div>
+</div>
+</div>
+<div class="p-8">
+<div class="mb-8">
+<div class="w-full bg-gray-200 rounded-full h-3">
+<div class="bg-secondary h-3 rounded-full" style="width: 65%"></div>
+</div>
+<div class="mt-2 text-sm text-gray-600 text-center">Remaining: 175 / 500</div>
+</div>
+<div class="space-y-4 mb-8">
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-secondary mr-3 mt-0.5">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="text-gray-700">2-year full warranty</p>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-secondary mr-3 mt-0.5">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="text-gray-700">Premium coffee beans package (1 lb)</p>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-secondary mr-3 mt-0.5">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="text-gray-700">Exclusive double-wall coffee mug set</p>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-secondary mr-3 mt-0.5">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="text-gray-700">1 year free premium app features</p>
+</div>
+<div class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center text-secondary mr-3 mt-0.5">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="text-gray-700">Free shipping and installation</p>
+</div>
+</div>
+<div id="order" class="text-center">
+<a href="#" class="inline-block w-full py-4 bg-primary text-white font-bold text-lg !rounded-button shadow-lg cta-button whitespace-nowrap">PRE-ORDER NOW</a>
+<div class="mt-4 flex justify-center space-x-4">
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-visa-line ri-2x text-gray-600"></i>
+</div>
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-mastercard-line ri-2x text-gray-600"></i>
+</div>
+<div class="w-10 h-10 flex items-center justify-center">
+<i class="ri-paypal-line ri-2x text-gray-600"></i>
+</div>
+</div>
+<p class="mt-4 text-sm text-gray-500">Secure payment system. 30-day money-back guarantee.</p>
+</div>
+</div>
+</div>
+<div class="mt-12 bg-white rounded-lg shadow-md p-8">
+<h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Frequently Asked Questions</h3>
+<div class="space-y-6">
+<div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">When will it be delivered?</h4>
+<p class="text-gray-600">Pre-orders will start shipping from September 2025. Delivery will be made according to your order queue.</p>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">What are the payment options?</h4>
+<p class="text-gray-600">We accept credit cards, debit cards, and PayPal. Monthly payment plans are available with select credit cards.</p>
+</div>
+<div>
+<h4 class="text-lg font-semibold text-gray-900 mb-2">What does the warranty cover?</h4>
+<p class="text-gray-600">BrewGenius comes with a 2-year full warranty. Free service is provided for any manufacturing defects during this period.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12">
+<div class="container mx-auto px-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
+<div>
+<a href="#" class="text-3xl font-['Pacifico'] text-white mb-4 block">BrewGenius</a>
+<p class="text-gray-400 mb-6">Redefining the coffee experience with artificial intelligence.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
+<i class="ri-instagram-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
+<i class="ri-facebook-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
+<i class="ri-twitter-x-line"></i>
+</a>
+<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
+<i class="ri-youtube-line"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+<ul class="space-y-2">
+<li><a href="#features" class="text-gray-400 hover:text-white transition">Features</a></li>
+<li><a href="#details" class="text-gray-400 hover:text-white transition">Product Details</a></li>
+<li><a href="#experience" class="text-gray-400 hover:text-white transition">User Experience</a></li>
+<li><a href="#pricing" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Contact</h4>
+<ul class="space-y-2">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-map-pin-line text-gray-400"></i>
+</div>
+<span class="text-gray-400">Silicon Valley, California, USA</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-mail-line text-gray-400"></i>
+</div>
+<span class="text-gray-400">info@brewgenius.com</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+<i class="ri-phone-line text-gray-400"></i>
+</div>
+<span class="text-gray-400">+1 (650) 555-0123</span>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+<p class="text-gray-400 mb-4">Subscribe for latest news and special offers.</p>
+<form class="space-y-4">
+<div class="relative">
+<input type="email" placeholder="Your email address" class="w-full px-4 py-3 bg-gray-800 border-none rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-primary">
+</div>
+<button type="submit" class="w-full px-4 py-3 bg-primary text-white font-medium !rounded-button hover:bg-primary/90 transition whitespace-nowrap">Subscribe</button>
+</form>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 BrewGenius. All rights reserved.</p>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-500 hover:text-white text-sm transition">Privacy Policy</a>
+<a href="#" class="text-gray-500 hover:text-white text-sm transition">Terms of Use</a>
+<a href="#" class="text-gray-500 hover:text-white text-sm transition">Cookies</a>
+</div>
+</div>
+</div>
+</footer>
+<script id="headerScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Prevent body scroll when mobile menu is open
+document.body.addEventListener('touchmove', function(e) {
+if (document.body.style.overflow === 'hidden') {
+e.preventDefault();
+}
+}, { passive: false });
+// Mobile menu functionality
+const mobileMenuButton = document.getElementById('mobileMenuButton');
+const mobileMenu = document.getElementById('mobileMenu');
+let isMenuOpen = false;
+function toggleMenu() {
+isMenuOpen = !isMenuOpen;
+mobileMenu.classList.toggle('hidden');
+mobileMenuButton.querySelector('i').className = isMenuOpen ? 'ri-close-line ri-lg' : 'ri-menu-line ri-lg';
+if (isMenuOpen) {
+document.body.style.overflow = 'hidden';
+} else {
+document.body.style.overflow = '';
+}
+}
+mobileMenuButton.addEventListener('click', toggleMenu);
+// Close mobile menu when clicking on a link
+const mobileLinks = mobileMenu.querySelectorAll('a');
+mobileLinks.forEach(link => {
+link.addEventListener('click', () => {
+if (isMenuOpen) toggleMenu();
+});
+});
+// Header scroll behavior
+const header = document.querySelector('header');
+let lastScrollTop = 0;
+window.addEventListener('scroll', () => {
+const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+// Add shadow and background opacity based on scroll position
+if (scrollTop > 0) {
+header.classList.add('shadow-md');
+header.classList.remove('bg-opacity-0');
+header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+} else {
+header.classList.remove('shadow-md');
+header.style.backgroundColor = 'rgba(255, 255, 255, 0)';
+header.classList.add('bg-opacity-0');
+}
+// Update active nav link based on scroll position
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+sections.forEach(section => {
+const sectionTop = section.offsetTop - 100;
+const sectionBottom = sectionTop + section.offsetHeight;
+if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+navLinks.forEach(link => {
+if (link.getAttribute('href') === `#${section.id}`) {
+link.classList.add('text-primary');
+link.classList.add('after:w-full');
+} else {
+link.classList.remove('text-primary');
+link.classList.remove('after:w-full');
+}
+});
+}
+});
+lastScrollTop = scrollTop;
+});
+// Smooth scroll for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+const headerOffset = 80;
+const elementPosition = targetElement.getBoundingClientRect().top;
+const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+window.scrollTo({
+top: offsetPosition,
+behavior: 'smooth'
+});
+}
+});
+});
+});
+</script>
+<script id="productImageScript">
+document.addEventListener('DOMContentLoaded', function() {
+const productImage = document.getElementById('productImage');
+const imageButtons = document.querySelectorAll('[data-image]');
+imageButtons.forEach(button => {
+button.addEventListener('click', function() {
+const imageUrl = this.getAttribute('data-image');
+productImage.src = imageUrl;
+// Update active state
+imageButtons.forEach(btn => {
+btn.classList.remove('bg-primary');
+btn.classList.add('bg-gray-300');
+});
+this.classList.remove('bg-gray-300');
+this.classList.add('bg-primary');
+});
+});
+});
+</script>
+<script id="fadeInScript">
+document.addEventListener('DOMContentLoaded', function() {
+const fadeElements = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+}
+});
+}, {
+threshold: 0.1
+});
+fadeElements.forEach(element => {
+observer.observe(element);
+});
+});
+</script>
+<script id="storySliderScript">
+document.addEventListener('DOMContentLoaded', function() {
+const slider = document.querySelector('.story-slider');
+const cards = document.querySelectorAll('.story-card');
+const navButtons = document.querySelectorAll('.story-nav');
+let currentIndex = 0;
+function updateCardStates() {
+cards.forEach((card, index) => {
+if (index === currentIndex) {
+card.classList.add('active');
+card.classList.remove('inactive');
+} else {
+card.classList.remove('active');
+card.classList.add('inactive');
+}
+});
+}
+function scrollToCard(index) {
+const card = cards[index];
+const cardLeft = card.offsetLeft;
+const sliderScrollLeft = slider.scrollLeft;
+const sliderWidth = slider.offsetWidth;
+const scrollTo = cardLeft - (sliderWidth - card.offsetWidth) / 2;
+slider.scrollTo({
+left: scrollTo,
+behavior: 'smooth'
+});
+}
+navButtons.forEach(button => {
+button.addEventListener('click', function() {
+const direction = this.getAttribute('data-direction');
+if (direction === 'next' && currentIndex < cards.length - 1) {
+currentIndex++;
+} else if (direction === 'prev' && currentIndex > 0) {
+currentIndex--;
+}
+scrollToCard(currentIndex);
+updateCardStates();
+});
+});
+// Initialize first card as active
+updateCardStates();
+});
+</script>
+</body>
+</html>
