@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moda Coffee Lab - Kahvenin Ötesinde Bir Deneyim</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#8B5A2B',secondary:'#D2B48C'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Open Sans', sans-serif;
+}
+.font-handwriting {
+font-family: 'Dancing Script', cursive;
+}
+.hero-section {
+background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://readdy.ai/api/search-image?query=A%20cozy%20third-wave%20coffee%20shop%20interior%20with%20warm%20lighting%2C%20wooden%20tables%2C%20and%20baristas%20preparing%20specialty%20coffee.%20The%20scene%20captures%20the%20artisanal%20coffee-making%20process%20with%20steam%20rising%20from%20freshly%20brewed%20coffee.%20The%20atmosphere%20is%20inviting%20with%20soft%20natural%20light%20streaming%20through%20large%20windows%2C%20highlighting%20the%20warm%20brown%20and%20beige%20tones%20of%20the%20cafe.&width=1920&height=1080&seq=coffee-hero&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+.menu-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+input:focus {
+outline: none;
+}
+.custom-checkbox {
+appearance: none;
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+border: 2px solid #8B5A2B;
+border-radius: 4px;
+cursor: pointer;
+position: relative;
+}
+.custom-checkbox:checked {
+background-color: #8B5A2B;
+}
+.custom-checkbox:checked::after {
+content: '';
+position: absolute;
+top: 2px;
+left: 6px;
+width: 5px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+</style>
+</head>
+<body class="bg-[#FDF8F3]">
+<!-- Header -->
+<header id="top" class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50">
+<div class="container mx-auto px-4 py-3 flex justify-between items-center">
+<a href="#" class="text-3xl font-['Pacifico'] text-primary">Moda Coffee Lab</a>
+<nav class="hidden md:flex items-center space-x-8">
+<a href="#top" class="text-gray-800 hover:text-primary transition-colors font-medium">Ana Sayfa</a>
+<a href="#menu" class="text-gray-800 hover:text-primary transition-colors font-medium">Menü</a>
+<a href="#about" class="text-gray-800 hover:text-primary transition-colors font-medium">Hakkımızda</a>
+<a href="#contact" class="text-gray-800 hover:text-primary transition-colors font-medium">İletişim</a>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="bg-primary text-white px-5 py-2 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Online Sipariş</a>
+</nav>
+<button class="md:hidden w-10 h-10 flex items-center justify-center text-gray-800">
+<i class="ri-menu-line ri-xl"></i>
+</button>
+</div>
+</header>
+<!-- Mobile Menu (Hidden by default) -->
+<div class="fixed inset-0 bg-white z-40 hidden flex-col pt-20 px-6">
+<nav class="flex flex-col space-y-6 text-center">
+<a href="#" class="text-xl text-gray-800 py-2 border-b border-gray-100">Ana Sayfa</a>
+<a href="#menu" class="text-xl text-gray-800 py-2 border-b border-gray-100">Menü</a>
+<a href="#about" class="text-xl text-gray-800 py-2 border-b border-gray-100">Hakkımızda</a>
+<a href="#contact" class="text-xl text-gray-800 py-2 border-b border-gray-100">İletişim</a>
+<a href="#order" class="bg-primary text-white px-5 py-3 !rounded-button font-medium mt-4 whitespace-nowrap">Online Sipariş</a>
+</nav>
+</div>
+<!-- Hero Section -->
+<section class="hero-section min-h-screen flex items-center justify-center text-white pt-16">
+<div class="container mx-auto px-4 text-center">
+<h1 class="text-5xl md:text-7xl font-handwriting mb-6">Kahvenin Ötesinde Bir Deneyim</h1>
+<p class="text-xl md:text-2xl mb-10 max-w-2xl mx-auto">İstanbul'un kalbinde, üçüncü nesil kahve kültürünün en özel örneklerini sunuyoruz.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a href="#menu" class="bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Menümüzü Keşfet</a>
+<a href="#contact" class="bg-white text-primary px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Bize Ulaşın</a>
+</div>
+<div class="mt-16 animate-bounce">
+<i class="ri-arrow-down-line ri-2x"></i>
+</div>
+</div>
+</section>
+<!-- Featured Coffee Section -->
+<section class="py-20 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-handwriting text-primary mb-3">Günün Kahvesi</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-gray-600 max-w-2xl mx-auto">Her gün özenle seçilen ve hazırlanan özel kahve çeşidimizi keşfedin.</p>
+</div>
+<div class="flex flex-col md:flex-row items-center gap-10">
+<div class="md:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=A%20beautifully%20presented%20specialty%20coffee%20in%20an%20elegant%20ceramic%20cup%20on%20a%20wooden%20table.%20The%20coffee%20has%20a%20perfect%20crema%20layer%20with%20latte%20art%20design%20on%20top.%20Next%20to%20the%20cup%20are%20coffee%20beans%20scattered%20artistically.%20The%20lighting%20is%20warm%20and%20inviting%2C%20highlighting%20the%20rich%20brown%20tones%20of%20the%20coffee%20and%20creating%20a%20cozy%20atmosphere%20typical%20of%20a%20high-end%20third-wave%20coffee%20shop.&width=600&height=600&seq=coffee-daily&orientation=squarish" alt="Günün Kahvesi" class="rounded-lg shadow-lg w-full h-auto object-cover">
+</div>
+<div class="md:w-1/2">
+<h3 class="text-3xl font-handwriting text-primary mb-4">Etiyopya Yirgacheffe</h3>
+<p class="text-gray-700 mb-6">Etiyopya'nın Yirgacheffe bölgesinden gelen bu özel çekirdekler, çiçeksi ve meyvemsi notalarıyla dikkat çekiyor. Hafif asidik yapısı ve yumuşak içimi ile kahve tutkunlarının favorisi.</p>
+<ul class="mb-8 space-y-3">
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span>Yüksek rakımda yetiştirilmiş Arabica çekirdekleri</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span>Orta kavrulmuş, filtreleme yöntemi için ideal</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span>Çikolata, bergamot ve çiçek notaları</span>
+</li>
+</ul>
+<div class="flex items-center mb-6">
+<div class="text-2xl font-bold text-primary mr-4">₺65</div>
+<div class="text-sm text-gray-500 line-through">₺75</div>
+</div>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="inline-block bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Sipariş Ver</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Coffee Menu Section -->
+<section id="menu" class="py-20 bg-[#F5EFE7]">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-handwriting text-primary mb-3">Özel Kahvelerimiz</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-gray-600 max-w-2xl mx-auto">Dünyanın dört bir yanından özenle seçtiğimiz çekirdeklerle hazırlanan özel kahvelerimizi keşfedin.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Coffee Card 1 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20close-up%20of%20a%20perfectly%20prepared%20espresso%20shot%20in%20a%20small%20white%20cup%20on%20a%20wooden%20surface.%20The%20coffee%20has%20a%20beautiful%20crema%20layer%20on%20top%20with%20rich%2C%20dark%20coffee%20visible%20beneath.%20The%20lighting%20is%20warm%20and%20professional%2C%20highlighting%20the%20texture%20and%20color%20of%20the%20espresso.%20The%20background%20is%20slightly%20blurred%2C%20suggesting%20a%20cozy%20cafe%20environment.&width=400&height=300&seq=coffee-espresso&orientation=landscape" alt="Espresso" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">Espresso</h3>
+<p class="text-gray-600 mb-4">İtalyan tarzı hazırlanan, yoğun ve güçlü karaktere sahip klasik espresso.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺30</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+<!-- Coffee Card 2 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20beautifully%20crafted%20cappuccino%20in%20a%20white%20ceramic%20cup%20on%20a%20saucer.%20The%20coffee%20features%20perfect%20latte%20art%20with%20a%20heart%20design%20on%20top%20of%20the%20creamy%20microfoam.%20The%20cup%20is%20positioned%20on%20a%20wooden%20table%20with%20some%20coffee%20beans%20scattered%20nearby.%20The%20lighting%20is%20soft%20and%20warm%2C%20creating%20an%20inviting%20atmosphere%20typical%20of%20a%20high-end%20coffee%20shop.&width=400&height=300&seq=coffee-cappuccino&orientation=landscape" alt="Cappuccino" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">Cappuccino</h3>
+<p class="text-gray-600 mb-4">Eşit oranda espresso, buharla ısıtılmış süt ve süt köpüğü ile hazırlanan İtalyan klasiği.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺45</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+<!-- Coffee Card 3 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20pour-over%20coffee%20being%20prepared%20with%20a%20glass%20V60%20dripper.%20Hot%20water%20is%20being%20carefully%20poured%20over%20freshly%20ground%20coffee%20in%20a%20circular%20motion%2C%20with%20steam%20rising.%20Below%20is%20a%20clear%20glass%20carafe%20collecting%20the%20brewed%20coffee.%20The%20scene%20is%20set%20on%20a%20wooden%20counter%20with%20coffee%20beans%20scattered%20around%2C%20creating%20a%20artisanal%20coffee%20preparation%20atmosphere%20with%20warm%20lighting.&width=400&height=300&seq=coffee-filter&orientation=landscape" alt="Filtre Kahve" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">V60 Filtre Kahve</h3>
+<p class="text-gray-600 mb-4">El yapımı pour-over yöntemiyle hazırlanan, kahvenin tüm aromalarını ortaya çıkaran filtre kahve.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺50</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+<!-- Coffee Card 4 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20cold%20brew%20coffee%20served%20in%20a%20tall%20glass%20with%20ice%20cubes.%20The%20coffee%20is%20dark%20and%20rich%2C%20with%20condensation%20on%20the%20outside%20of%20the%20glass.%20Its%20garnished%20with%20a%20slice%20of%20orange%20and%20a%20cinnamon%20stick.%20The%20glass%20sits%20on%20a%20wooden%20table%20with%20some%20coffee%20beans%20scattered%20nearby%2C%20creating%20an%20artisanal%20presentation%20in%20a%20cafe%20setting.&width=400&height=300&seq=coffee-coldbrew&orientation=landscape" alt="Cold Brew" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">Cold Brew</h3>
+<p class="text-gray-600 mb-4">24 saat boyunca soğuk suda demlenen, yumuşak içimli ve düşük asiditeye sahip soğuk kahve.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺55</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+<!-- Coffee Card 5 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20flat%20white%20coffee%20in%20a%20small%20ceramic%20cup%20on%20a%20saucer.%20The%20coffee%20has%20a%20velvety%20microfoam%20with%20minimal%20latte%20art%20-%20just%20a%20simple%20white%20dot%20on%20top.%20The%20cup%20is%20positioned%20on%20a%20wooden%20table%20with%20a%20spoon%20beside%20it.%20The%20lighting%20is%20natural%20and%20bright%2C%20highlighting%20the%20creamy%20texture%20of%20the%20coffee%20against%20the%20white%20cup.&width=400&height=300&seq=coffee-flatwhite&orientation=landscape" alt="Flat White" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">Flat White</h3>
+<p class="text-gray-600 mb-4">Avustralya kökenli, iki shot espresso üzerine kadifemsi mikroköpüklü süt ile hazırlanan özel içecek.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺48</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+<!-- Coffee Card 6 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 menu-card">
+<img src="https://readdy.ai/api/search-image?query=A%20Turkish%20coffee%20served%20in%20a%20traditional%20small%20copper%20pot%20%28cezve%29%20with%20a%20matching%20copper%20cup%20beside%20it.%20The%20coffee%20is%20topped%20with%20rich%20foam%20and%20served%20with%20a%20glass%20of%20water%20and%20a%20piece%20of%20Turkish%20delight%20on%20a%20small%20decorative%20plate.%20The%20setting%20is%20on%20a%20rustic%20wooden%20table%20with%20some%20coffee%20beans%20scattered%20around%2C%20creating%20an%20authentic%20presentation.&width=400&height=300&seq=coffee-turkish&orientation=landscape" alt="Türk Kahvesi" class="w-full h-56 object-cover object-top">
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-800 mb-2">Türk Kahvesi</h3>
+<p class="text-gray-600 mb-4">Geleneksel yöntemle cezve içinde pişirilen, özel harmanlanmış çekirdeklerden hazırlanan Türk kahvesi.</p>
+<div class="flex justify-between items-center">
+<span class="text-primary font-bold">₺35</span>
+<a href="https://mt0100.github.io/landing-page-demo/coffee-shop/order.html" data-readdy="true" class="text-primary hover:text-opacity-80 transition-colors">Sipariş Ver →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-16 text-center">
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/d63b5f2b-9255-40f5-9925-1b59544e23fa" data-readdy="true" class="inline-block border-2 border-primary text-primary px-8 py-3 !rounded-button font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap">Tüm Menüyü Gör</a>
+</div>
+</div>
+</section>
+<!-- Workshop Section -->
+<section class="py-20 bg-white">
+<div class="container mx-auto px-4">
+<div class="bg-[#F8F3E9] rounded-2xl overflow-hidden shadow-lg">
+<div class="flex flex-col md:flex-row">
+<div class="md:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=A%20coffee%20workshop%20scene%20in%20a%20modern%20cafe%20where%20a%20professional%20barista%20is%20teaching%20a%20small%20group%20of%20enthusiastic%20people%20how%20to%20make%20specialty%20coffee.%20The%20barista%20is%20demonstrating%20latte%20art%20techniques%20on%20an%20espresso%20machine%20while%20participants%20watch%20closely.%20There%20are%20various%20coffee%20brewing%20equipment%20visible%20on%20the%20wooden%20counter.%20The%20atmosphere%20is%20warm%20and%20educational%20with%20natural%20lighting.&width=600&height=400&seq=coffee-workshop&orientation=landscape" alt="Kahve Workshop" class="w-full h-full object-cover object-top">
+</div>
+<div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+<h2 class="text-3xl font-handwriting text-primary mb-4">Kahve Atölyelerimize Katılın</h2>
+<p class="text-gray-700 mb-6">Her cumartesi düzenlediğimiz kahve atölyelerimizde, uzman baristalarımızdan kahve yapımının inceliklerini öğrenebilirsiniz. Espresso çekiminden latte art'a kadar pek çok tekniği uygulamalı olarak deneyimleme fırsatı bulacaksınız.</p>
+<ul class="mb-8 space-y-3">
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-calendar-line text-primary"></i>
+</div>
+<span>Her Cumartesi, 14:00-16:30</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-money-dollar-circle-line text-primary"></i>
+</div>
+<span>Katılım ücreti: ₺350 (ikram ve ekipman dahil)</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center mr-2 mt-1">
+<i class="ri-group-line text-primary"></i>
+</div>
+<span>Kontenjan: 8 kişi (rezervasyon gereklidir)</span>
+</li>
+</ul>
+<a href="#workshop" class="inline-block bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Rezervasyon Yap</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Instagram Feed Section -->
+<section class="py-20 bg-[#F5EFE7]">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-handwriting text-primary mb-3">Instagram'da Biz</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-gray-600 max-w-2xl mx-auto">Kahve yolculuğumuzu sosyal medyada takip edin, özel teklifler ve etkinliklerden haberdar olun.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<a href="#" class="block overflow-hidden rounded-lg shadow-md transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=A%20close-up%20of%20latte%20art%20on%20a%20cappuccino%2C%20showing%20an%20intricate%20leaf%20design%20in%20the%20microfoam%20against%20the%20rich%20espresso.%20The%20coffee%20is%20in%20a%20white%20ceramic%20cup%20on%20a%20wooden%20surface%2C%20with%20soft%20natural%20lighting%20highlighting%20the%20contrast%20between%20the%20white%20milk%20and%20dark%20coffee.&width=300&height=300&seq=insta1&orientation=squarish" alt="Instagram Post" class="w-full h-full object-cover">
+</a>
+<a href="#" class="block overflow-hidden rounded-lg shadow-md transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=A%20barista%20carefully%20preparing%20a%20pour-over%20coffee%20using%20a%20glass%20V60%20dripper.%20The%20image%20captures%20the%20precise%20pouring%20technique%20with%20water%20flowing%20from%20a%20gooseneck%20kettle%20onto%20freshly%20ground%20coffee.%20Steam%20rises%20gently%20in%20the%20warm%20cafe%20lighting%2C%20creating%20an%20atmospheric%20scene%20of%20coffee%20craftsmanship.&width=300&height=300&seq=insta2&orientation=squarish" alt="Instagram Post" class="w-full h-full object-cover">
+</a>
+<a href="#" class="block overflow-hidden rounded-lg shadow-md transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=A%20flat%20lay%20composition%20of%20coffee%20beans%2C%20a%20small%20espresso%20cup%2C%20and%20various%20coffee%20brewing%20equipment%20on%20a%20rustic%20wooden%20table.%20The%20scene%20includes%20a%20manual%20coffee%20grinder%2C%20a%20scale%2C%20and%20perhaps%20a%20notebook.%20The%20lighting%20is%20natural%20and%20warm%2C%20creating%20beautiful%20shadows%20and%20highlighting%20the%20textures%20of%20the%20coffee%20beans.&width=300&height=300&seq=insta3&orientation=squarish" alt="Instagram Post" class="w-full h-full object-cover">
+</a>
+<a href="#" class="block overflow-hidden rounded-lg shadow-md transform transition-transform hover:scale-105">
+<img src="https://readdy.ai/api/search-image?query=A%20cozy%20corner%20of%20a%20third-wave%20coffee%20shop%20showing%20comfortable%20seating%20with%20cushions%2C%20warm%20lighting%20from%20pendant%20lamps%2C%20and%20people%20enjoying%20coffee.%20The%20interior%20features%20wooden%20elements%2C%20plants%2C%20and%20perhaps%20books%20or%20magazines.%20The%20atmosphere%20is%20inviting%20and%20relaxed%2C%20perfect%20for%20coffee%20enthusiasts%20to%20gather.&width=300&height=300&seq=insta4&orientation=squarish" alt="Instagram Post" class="w-full h-full object-cover">
+</a>
+</div>
+<div class="mt-10 text-center">
+<a href="https://instagram.com" target="_blank" class="inline-flex items-center text-primary hover:text-opacity-80 transition-colors">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-instagram-line"></i>
+</div>
+<span>@modacoffeelab</span>
+</a>
+</div>
+</div>
+</section>
+<!-- About Us Section -->
+<section id="about" class="py-20 bg-white">
+<div class="container mx-auto px-4">
+<div class="flex flex-col md:flex-row items-center gap-12">
+<div class="md:w-1/2">
+<h2 class="text-4xl font-handwriting text-primary mb-6">Hikayemiz</h2>
+<p class="text-gray-700 mb-6">Moda Coffee Lab, 2018 yılında İstanbul'un en güzel semtlerinden biri olan Moda'da, kahve tutkunu üç arkadaş tarafından kuruldu. Amacımız, kahveyi sadece bir içecek olarak değil, bir sanat ve deneyim olarak sunmaktı.</p>
+<p class="text-gray-700 mb-6">Çekirdeklerimizi dünyanın dört bir yanındaki küçük üreticilerden doğrudan temin ediyor, kendi tesisimizde kavuruyor ve her fincan kahveyi özenle hazırlıyoruz. Sürdürülebilir tarım uygulamalarını destekliyor, adil ticaret ilkelerine bağlı kalıyoruz.</p>
+<p class="text-gray-700 mb-6">Moda Coffee Lab'de sadece kahve servisi yapmıyoruz; kahve kültürünü yaşatıyor, paylaşıyor ve yeni nesillere aktarıyoruz. Düzenlediğimiz workshop'lar, tadım etkinlikleri ve baristalarımızın uzmanlığı ile ziyaretçilerimize unutulmaz deneyimler sunuyoruz.</p>
+<div class="flex space-x-4">
+<a href="#contact" class="inline-block bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Bize Ulaşın</a>
+<a href="#team" class="inline-block border-2 border-primary text-primary px-6 py-3 !rounded-button font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap">Ekibimiz</a>
+</div>
+</div>
+<div class="md:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=A%20warm%20and%20inviting%20interior%20of%20a%20specialty%20coffee%20shop%20with%20wooden%20furniture%2C%20plants%2C%20and%20natural%20light.%20The%20space%20features%20a%20professional%20espresso%20machine%2C%20coffee%20grinders%2C%20and%20brewing%20equipment%20at%20the%20counter.%20Baristas%20are%20working%20behind%20the%20bar%2C%20and%20there%20are%20customers%20enjoying%20coffee%20at%20tables.%20The%20atmosphere%20is%20cozy%20yet%20modern%20with%20a%20minimalist%20aesthetic%20typical%20of%20third-wave%20coffee%20culture.&width=600&height=500&seq=coffee-shop&orientation=portrait" alt="Moda Coffee Lab" class="w-full h-auto rounded-lg shadow-xl">
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials Section -->
+<section class="py-20 bg-[#F5EFE7]">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-handwriting text-primary mb-3">Müşterilerimiz Ne Diyor?</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-gray-600 max-w-2xl mx-auto">Kahve tutkunlarının Moda Coffee Lab deneyimleri hakkında düşünceleri.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-white p-8 rounded-lg shadow-md">
+<div class="flex items-center mb-4">
+<div class="text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<p class="text-gray-700 mb-6">"İstanbul'da denediğim en iyi kahve deneyimi! Etiyopya filtreleri özellikle muhteşem. Baristalar çok bilgili ve her ziyaretimde yeni bir şey öğreniyorum."</p>
+<div class="flex items-center">
+<div class="mr-4">
+<div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+<div>
+<h4 class="font-bold">Zeynep Yılmaz</h4>
+<p class="text-sm text-gray-500">Kahve Eğitmeni</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white p-8 rounded-lg shadow-md">
+<div class="flex items-center mb-4">
+<div class="text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<p class="text-gray-700 mb-6">"Çalışmak için harika bir mekan. Wifi hızlı, ortam sakin ve kahveler mükemmel. Cold brew'ları özellikle yaz aylarında vazgeçilmezim haline geldi."</p>
+<div class="flex items-center">
+<div class="mr-4">
+<div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+<div>
+<h4 class="font-bold">Burak Demir</h4>
+<p class="text-sm text-gray-500">Yazılım Geliştirici</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-white p-8 rounded-lg shadow-md">
+<div class="flex items-center mb-4">
+<div class="text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-half-fill"></i>
+</div>
+</div>
+<p class="text-gray-700 mb-6">"Katıldığım kahve workshop'u inanılmazdı! Eve döndüğümde kendi V60'ımı aldım ve şimdi evde de harika kahveler yapabiliyorum. Teşekkürler Moda Coffee Lab!"</p>
+<div class="flex items-center">
+<div class="mr-4">
+<div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+<i class="ri-user-line ri-lg"></i>
+</div>
+</div>
+<div>
+<h4 class="font-bold">Elif Kaya</h4>
+<p class="text-sm text-gray-500">Mimar</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section id="contact" class="py-20 bg-white">
+<div class="container mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-handwriting text-primary mb-3">Bize Ulaşın</h2>
+<div class="w-24 h-1 bg-primary mx-auto mb-6"></div>
+<p class="text-gray-600 max-w-2xl mx-auto">Sorularınız, önerileriniz veya rezervasyon talepleriniz için bizimle iletişime geçebilirsiniz.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="lg:w-1/2">
+<div class="bg-[#F8F3E9] p-8 rounded-lg shadow-md mb-8">
+<h3 class="text-2xl font-bold text-primary mb-6">İletişim Bilgileri</h3>
+<ul class="space-y-6">
+<li class="flex items-start">
+<div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 mt-1">
+<i class="ri-map-pin-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-bold mb-1">Adres</h4>
+<p class="text-gray-700">Caferağa Mah. Moda Cad. No:123<br>Kadıköy, İstanbul</p>
+</div>
+</li>
+<li class="flex items-start">
+<div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 mt-1">
+<i class="ri-phone-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-bold mb-1">Telefon</h4>
+<p class="text-gray-700">+90 (216) 123 45 67</p>
+</div>
+</li>
+<li class="flex items-start">
+<div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 mt-1">
+<i class="ri-mail-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-bold mb-1">E-posta</h4>
+<p class="text-gray-700">info@modacoffeelab.com</p>
+</div>
+</li>
+<li class="flex items-start">
+<div class="w-10 h-10 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mr-4 mt-1">
+<i class="ri-time-line text-primary"></i>
+</div>
+<div>
+<h4 class="font-bold mb-1">Çalışma Saatleri</h4>
+<p class="text-gray-700">Hafta içi: 08:00 - 22:00<br>Hafta sonu: 09:00 - 23:00</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="bg-[#F8F3E9] p-8 rounded-lg shadow-md">
+<h3 class="text-2xl font-bold text-primary mb-6">Bizi Takip Edin</h3>
+<div class="flex space-x-4">
+<a href="#" class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+<i class="ri-instagram-line ri-lg"></i>
+</a>
+<a href="#" class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+<i class="ri-facebook-fill ri-lg"></i>
+</a>
+<a href="#" class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+<i class="ri-twitter-x-line ri-lg"></i>
+</a>
+<a href="#" class="w-12 h-12 bg-primary bg-opacity-10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
+<i class="ri-tripadvisor-line ri-lg"></i>
+</a>
+</div>
+</div>
+</div>
+<div class="lg:w-1/2">
+<div class="bg-[#F8F3E9] p-8 rounded-lg shadow-md">
+<h3 class="text-2xl font-bold text-primary mb-6">Bize Yazın</h3>
+<form>
+<div class="mb-6">
+<label for="name" class="block text-gray-700 font-medium mb-2">Adınız Soyadınız</label>
+<input type="text" id="name" class="w-full px-4 py-3 rounded border-none focus:ring-2 focus:ring-primary" placeholder="Adınız Soyadınız">
+</div>
+<div class="mb-6">
+<label for="email" class="block text-gray-700 font-medium mb-2">E-posta Adresiniz</label>
+<input type="email" id="email" class="w-full px-4 py-3 rounded border-none focus:ring-2 focus:ring-primary" placeholder="E-posta Adresiniz">
+</div>
+<div class="mb-6">
+<label for="subject" class="block text-gray-700 font-medium mb-2">Konu</label>
+<input type="text" id="subject" class="w-full px-4 py-3 rounded border-none focus:ring-2 focus:ring-primary" placeholder="Konu">
+</div>
+<div class="mb-6">
+<label for="message" class="block text-gray-700 font-medium mb-2">Mesajınız</label>
+<textarea id="message" rows="5" class="w-full px-4 py-3 rounded border-none focus:ring-2 focus:ring-primary" placeholder="Mesajınız"></textarea>
+</div>
+<div class="mb-6 flex items-start">
+<input type="checkbox" id="consent" class="custom-checkbox mr-3 mt-1">
+<label for="consent" class="text-sm text-gray-700">Kişisel verilerimin, tarafıma dönüş yapılabilmesi amacıyla işlenmesine izin veriyorum.</label>
+</div>
+<button type="submit" class="w-full bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Gönder</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Map Section -->
+<section class="py-20 bg-[#F5EFE7]">
+<div class="container mx-auto px-4">
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+<div class="h-96 w-full bg-cover bg-center" style="background-image: url('https://static.readdy.ai/image/1bca1de28a0568aac9603a1d73ec255e/f4663a4fb8550ada8250e28d8b2e3975.png')"></div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="py-20 bg-primary bg-opacity-10">
+<div class="container mx-auto px-4">
+<div class="max-w-3xl mx-auto text-center">
+<h2 class="text-3xl font-handwriting text-primary mb-4">Yeniliklerden Haberdar Olun</h2>
+<p class="text-gray-700 mb-8">Özel teklifler, yeni kahve çeşitleri ve etkinliklerden haberdar olmak için bültenimize abone olun.</p>
+<form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+<input type="email" placeholder="E-posta adresiniz" class="flex-grow px-4 py-3 rounded-lg border-none focus:ring-2 focus:ring-primary">
+<button type="submit" class="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Abone Ol</button>
+</form>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#2C1810] text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<a href="#" class="text-3xl font-['Pacifico'] text-white mb-4 block">Moda Coffee Lab</a>
+<p class="text-gray-300 mb-6">Kahvenin ötesinde bir deneyim sunan üçüncü nesil kahve dükkanı.</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-fill ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-line ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Hızlı Erişim</h3>
+<ul class="space-y-3">
+<li><a href="#top" class="text-gray-300 hover:text-white transition-colors">Ana Sayfa</a></li>
+<li><a href="#menu" class="text-gray-300 hover:text-white transition-colors">Menü</a></li>
+<li><a href="#about" class="text-gray-300 hover:text-white transition-colors">Hakkımızda</a></li>
+<li><a href="#contact" class="text-gray-300 hover:text-white transition-colors">İletişim</a></li>
+<li><a href="#workshop" class="text-gray-300 hover:text-white transition-colors">Workshop'lar</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">İletişim</h3>
+<ul class="space-y-3">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-map-pin-line text-primary"></i>
+</div>
+<span class="text-gray-300">Caferağa Mah. Moda Cad. No:123, Kadıköy</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-phone-line text-primary"></i>
+</div>
+<span class="text-gray-300">+90 (216) 123 45 67</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-mail-line text-primary"></i>
+</div>
+<span class="text-gray-300">info@modacoffeelab.com</span>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Çalışma Saatleri</h3>
+<ul class="space-y-3">
+<li class="flex justify-between">
+<span class="text-gray-300">Pazartesi - Cuma:</span>
+<span class="text-gray-300">08:00 - 22:00</span>
+</li>
+<li class="flex justify-between">
+<span class="text-gray-300">Cumartesi:</span>
+<span class="text-gray-300">09:00 - 23:00</span>
+</li>
+<li class="flex justify-between">
+<span class="text-gray-300">Pazar:</span>
+<span class="text-gray-300">09:00 - 23:00</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Moda Coffee Lab. Tüm hakları saklıdır.</p>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Gizlilik Politikası</a>
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Kullanım Koşulları</a>
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Çerez Politikası</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Back to Top Button -->
+<button id="backToTop" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-opacity-90">
+<i class="ri-arrow-up-line ri-lg"></i>
+</button>
+<!-- Scripts -->
+<script id="mobileMenuScript">
+document.addEventListener('DOMContentLoaded', function() {
+const mobileMenuButton = document.querySelector('.md\\:hidden');
+const mobileMenu = document.querySelector('.fixed.inset-0.bg-white');
+mobileMenuButton.addEventListener('click', function() {
+if (mobileMenu.classList.contains('hidden')) {
+mobileMenu.classList.remove('hidden');
+mobileMenu.classList.add('flex');
+document.body.style.overflow = 'hidden';
+} else {
+mobileMenu.classList.add('hidden');
+mobileMenu.classList.remove('flex');
+document.body.style.overflow = '';
+}
+});
+// Close mobile menu when clicking on a link
+const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+mobileMenuLinks.forEach(link => {
+link.addEventListener('click', function() {
+mobileMenu.classList.add('hidden');
+mobileMenu.classList.remove('flex');
+document.body.style.overflow = '';
+});
+});
+});
+</script>
+<script id="scrollScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+if (targetId === '#') return;
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop - 80,
+behavior: 'smooth'
+});
+}
+});
+});
+// Back to top button
+const backToTopButton = document.getElementById('backToTop');
+window.addEventListener('scroll', function() {
+if (window.pageYOffset > 300) {
+backToTopButton.classList.remove('opacity-0', 'invisible');
+backToTopButton.classList.add('opacity-100', 'visible');
+} else {
+backToTopButton.classList.add('opacity-0', 'invisible');
+backToTopButton.classList.remove('opacity-100', 'visible');
+}
+});
+backToTopButton.addEventListener('click', function() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+});
+</script>
+<script id="formScript">
+document.addEventListener('DOMContentLoaded', function() {
+// Contact form submission
+const contactForm = document.querySelector('#contact form');
+if (contactForm) {
+contactForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Form validation
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
+const consentCheckbox = document.getElementById('consent');
+let isValid = true;
+if (!nameInput.value.trim()) {
+nameInput.classList.add('ring-2', 'ring-red-500');
+isValid = false;
+} else {
+nameInput.classList.remove('ring-2', 'ring-red-500');
+}
+if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+emailInput.classList.add('ring-2', 'ring-red-500');
+isValid = false;
+} else {
+emailInput.classList.remove('ring-2', 'ring-red-500');
+}
+if (!messageInput.value.trim()) {
+messageInput.classList.add('ring-2', 'ring-red-500');
+isValid = false;
+} else {
+messageInput.classList.remove('ring-2', 'ring-red-500');
+}
+if (!consentCheckbox.checked) {
+consentCheckbox.classList.add('ring-2', 'ring-red-500');
+isValid = false;
+} else {
+consentCheckbox.classList.remove('ring-2', 'ring-red-500');
+}
+if (isValid) {
+// Simulate form submission
+contactForm.reset();
+alert('Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.');
+}
+});
+}
+// Newsletter form submission
+const newsletterForm = document.querySelector('section.py-20.bg-primary.bg-opacity-10 form');
+if (newsletterForm) {
+newsletterForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const emailInput = newsletterForm.querySelector('input[type="email"]');
+if (!emailInput.value.trim() || !emailInput.value.includes('@')) {
+emailInput.classList.add('ring-2', 'ring-red-500');
+} else {
+emailInput.classList.remove('ring-2', 'ring-red-500');
+newsletterForm.reset();
+alert('Bültenimize başarıyla abone oldunuz. Teşekkür ederiz!');
+}
+});
+}
+});
+</script>
+</body>
+</html>

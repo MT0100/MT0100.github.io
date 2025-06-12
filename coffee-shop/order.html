@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Sipariş - Moda Coffee Lab</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#8B5A2B',secondary:'#D2B48C'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+/* Improve touch targets for mobile */
+@media (max-width: 768px) {
+button,
+.category-btn,
+.add-to-cart-btn,
+.increment-btn,
+.decrement-btn,
+.remove-item-btn {
+min-height: 44px;
+min-width: 44px;
+cursor: pointer;
+-webkit-tap-highlight-color: transparent;
+}
+input[type="number"] {
+font-size: 16px; /* Prevent zoom on iOS */
+}
+}
+/* Prevent text selection on interactive elements */
+button,
+.category-btn,
+.add-to-cart-btn,
+.increment-btn,
+.decrement-btn,
+.remove-item-btn {
+user-select: none;
+-webkit-user-select: none;
+}
+body {
+font-family: 'Open Sans', sans-serif;
+}
+#toastContainer > div {
+animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn {
+from {
+transform: translateX(100%);
+}
+to {
+transform: translateX(0);
+}
+}
+.font-handwriting {
+font-family: 'Dancing Script', cursive;
+}
+input:focus {
+outline: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type=number] {
+-moz-appearance: textfield;
+}
+.category-scroll::-webkit-scrollbar {
+height: 6px;
+}
+.category-scroll::-webkit-scrollbar-track {
+background: #f1f1f1;
+border-radius: 10px;
+}
+.category-scroll::-webkit-scrollbar-thumb {
+background: #D2B48C;
+border-radius: 10px;
+}
+.category-scroll::-webkit-scrollbar-thumb:hover {
+background: #8B5A2B;
+}
+.custom-radio {
+appearance: none;
+-webkit-appearance: none;
+width: 20px;
+height: 20px;
+border: 2px solid #8B5A2B;
+border-radius: 50%;
+cursor: pointer;
+position: relative;
+}
+.custom-radio:checked {
+border-color: #8B5A2B;
+background-color: #fff;
+}
+.custom-radio:checked::after {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background-color: #8B5A2B;
+}
+</style>
+</head>
+<body class="bg-[#FDF8F3]">
+<!-- Header -->
+<header id="top" class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50">
+<div class="container mx-auto px-4 py-3 flex justify-between items-center">
+<a href="index.html" class="text-3xl font-['Pacifico'] text-primary">Moda Coffee Lab</a>
+<nav class="hidden md:flex items-center space-x-8">
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-800 hover:text-primary transition-colors font-medium">Ana Sayfa</a>
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-800 hover:text-primary transition-colors font-medium">Menü</a>
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-800 hover:text-primary transition-colors font-medium">Hakkımızda</a>
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-800 hover:text-primary transition-colors font-medium">İletişim</a>
+<a href="order.html" class="bg-primary text-white px-5 py-2 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Online Sipariş</a>
+</nav>
+<button class="md:hidden w-10 h-10 flex items-center justify-center text-gray-800">
+<i class="ri-menu-line ri-xl"></i>
+</button>
+</div>
+</header>
+<!-- Mobile Menu (Hidden by default) -->
+<div class="fixed inset-0 bg-white z-40 hidden flex-col pt-20 px-6">
+<nav class="flex flex-col space-y-6 text-center">
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-xl text-gray-800 py-2 border-b border-gray-100">Ana Sayfa</a>
+<a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-xl text-gray-800 py-2 border-b border-gray-100">Menü</a>
+<a href="index.html#about" class="text-xl text-gray-800 py-2 border-b border-gray-100">Hakkımızda</a>
+<a href="index.html#contact" class="text-xl text-gray-800 py-2 border-b border-gray-100">İletişim</a>
+<a href="order.html" class="bg-primary text-white px-5 py-3 !rounded-button font-medium mt-4 whitespace-nowrap">Online Sipariş</a>
+</nav>
+</div>
+<!-- Main Content -->
+<main class="pt-24 pb-20">
+<div class="container mx-auto px-4 mb-24 lg:mb-0">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Left Side (Categories & Products) -->
+<div class="w-full lg:w-2/3">
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Online Sipariş</h1>
+<!-- Categories -->
+<div class="mb-8 overflow-x-auto category-scroll -mx-4 px-4">
+<div class="flex space-x-3 pb-4 min-w-max">
+<button class="category-btn bg-primary text-white px-6 py-3 !rounded-button flex items-center space-x-3 whitespace-nowrap">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-cup-line"></i>
+</div>
+<span>Sıcak İçecekler</span>
+</button>
+<button class="category-btn bg-white text-gray-700 px-6 py-3 !rounded-button flex items-center space-x-3 shadow-sm hover:bg-gray-50 whitespace-nowrap">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-cup-fill"></i>
+</div>
+<span>Soğuk İçecekler</span>
+</button>
+<button class="category-btn bg-white text-gray-700 px-6 py-3 !rounded-button flex items-center space-x-3 shadow-sm hover:bg-gray-50 whitespace-nowrap">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-cake-3-line"></i>
+</div>
+<span>Tatlılar</span>
+</button>
+<button class="category-btn bg-white text-gray-700 px-6 py-3 !rounded-button flex items-center space-x-3 shadow-sm hover:bg-gray-50 whitespace-nowrap">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-seedling-line"></i>
+</div>
+<span>Kahve Çekirdekleri</span>
+</button>
+</div>
+</div>
+<!-- Products Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+<!-- Product Card 1 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520close-up%2520of%2520a%2520perfectly%2520prepared%2520espresso%2520shot%2520in%2520a%2520small%2520white%2520cup%2520on%2520a%2520wooden%2520surface.%2520The%2520coffee%2520has%2520a%2520beautiful%2520crema%2520layer%2520on%2520top%2520with%2520rich%252C%2520dark%2520coffee%2520visible%2520beneath.%2520The%2520lighting%2520is%2520warm%2520and%2520professional%252C%2520highlighting%2520the%2520texture%2520and%2520color%2520of%2520the%2520espresso.%2520The%2520background%2520is%2520slightly%2520blurred%252C%2520suggesting%2520a%2520cozy%2520cafe%2520environment.&width=400&height=300&seq=coffee-espresso-order&orientation=landscape" alt="Espresso" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">Espresso</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">İtalyan tarzı hazırlanan, yoğun ve güçlü karaktere sahip klasik espresso.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺30</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520beautifully%2520crafted%2520cappuccino%2520in%2520a%2520white%2520ceramic%2520cup%2520on%2520a%2520saucer.%2520The%2520coffee%2520features%2520perfect%2520latte%2520art%2520with%2520a%2520heart%2520design%2520on%2520top%2520of%2520the%2520creamy%2520microfoam.%2520The%2520cup%2520is%2520positioned%2520on%2520a%2520wooden%2520table%2520with%2520some%2520coffee%2520beans%2520scattered%2520nearby.%2520The%2520lighting%2520is%2520soft%2520and%2520warm%252C%2520creating%2520an%2520inviting%2520atmosphere%2520typical%2520of%2520a%2520high-end%2520coffee%2520shop.&width=400&height=300&seq=coffee-cappuccino-order&orientation=landscape" alt="Cappuccino" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">Cappuccino</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">Eşit oranda espresso, buharla ısıtılmış süt ve süt köpüğü ile hazırlanan İtalyan klasiği.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺45</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520pour-over%2520coffee%2520being%2520prepared%2520with%2520a%2520glass%2520V60%2520dripper.%2520Hot%2520water%2520is%2520being%2520carefully%2520poured%2520over%2520freshly%2520ground%2520coffee%2520in%2520a%2520circular%2520motion%252C%2520with%2520steam%2520rising.%2520Below%2520is%2520a%2520clear%2520glass%2520carafe%2520collecting%2520the%2520brewed%2520coffee.%2520The%2520scene%2520is%2520set%2520on%2520a%2520wooden%2520counter%2520with%2520coffee%2520beans%2520scattered%2520around%252C%2520creating%2520a%2520artisanal%2520coffee%2520preparation%2520atmosphere%2520with%2520warm%2520lighting.&width=400&height=300&seq=coffee-filter-order&orientation=landscape" alt="Filtre Kahve" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">V60 Filtre Kahve</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">El yapımı pour-over yöntemiyle hazırlanan, kahvenin tüm aromalarını ortaya çıkaran filtre kahve.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺50</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520macchiato%2520coffee%2520in%2520a%2520small%2520glass%2520cup%2520showing%2520layers%2520of%2520espresso%2520and%2520a%2520small%2520amount%2520of%2520foamed%2520milk%2520on%2520top.%2520The%2520coffee%2520is%2520served%2520on%2520a%2520wooden%2520saucer%2520with%2520a%2520small%2520spoon.%2520The%2520scene%2520is%2520set%2520on%2520a%2520rustic%2520wooden%2520table%2520with%2520warm%2520lighting%2520highlighting%2520the%2520rich%2520colors%2520of%2520the%2520coffee.&width=400&height=300&seq=coffee-macchiato&orientation=landscape" alt="Macchiato" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">Macchiato</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">Espresso üzerine az miktarda süt köpüğü eklenerek hazırlanan İtalyan kahvesi.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺40</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520flat%2520white%2520coffee%2520in%2520a%2520small%2520ceramic%2520cup%2520on%2520a%2520saucer.%2520The%2520coffee%2520has%2520a%2520velvety%2520microfoam%2520with%2520minimal%2520latte%2520art%2520-%2520just%2520a%2520simple%2520white%2520dot%2520on%2520top.%2520The%2520cup%2520is%2520positioned%2520on%2520a%2520wooden%2520table%2520with%2520a%2520spoon%2520beside%2520it.%2520The%2520lighting%2520is%2520natural%2520and%2520bright%252C%2520highlighting%2520the%2520creamy%2520texture%2520of%2520the%2520coffee%2520against%2520the%2520white%2520cup.&width=400&height=300&seq=coffee-flatwhite-order&orientation=landscape" alt="Flat White" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">Flat White</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">Avustralya kökenli, iki shot espresso üzerine kadifemsi mikroköpüklü süt ile hazırlanan özel içecek.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺48</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+<div class="relative">
+<img src="https://readdy.ai/api/search-image?query=A%2520Turkish%2520coffee%2520served%2520in%2520a%2520traditional%2520small%2520copper%2520pot%2520%2528cezve%2529%2520with%2520a%2520matching%2520copper%2520cup%2520beside%2520it.%2520The%2520coffee%2520is%2520topped%2520with%2520rich%2520foam%2520and%2520served%2520with%2520a%2520glass%2520of%2520water%2520and%2520a%2520piece%2520of%2520Turkish%2520delight%2520on%2520a%2520small%2520decorative%2520plate.%2520The%2520setting%2520is%2520on%2520a%2520rustic%2520wooden%2520table%2520with%2520some%2520coffee%2520beans%2520scattered%2520around%252C%2520creating%2520an%2520authentic%2520presentation.&width=400&height=300&seq=coffee-turkish-order&orientation=landscape" alt="Türk Kahvesi" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">Türk Kahvesi</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">Geleneksel yöntemle cezve içinde pişirilen, özel harmanlanmış çekirdeklerden hazırlanan Türk kahvesi.</p>
+<div class="flex justify-between items-center mb-3">
+<span class="text-primary font-bold">₺35</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side (Cart) -->
+<div class="lg:w-1/3">
+<div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+<h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-shopping-cart-2-line"></i>
+</div>
+<span>Sepetim</span>
+</h2>
+<div id="cart-items" class="mb-6 space-y-4">
+<!-- Cart Item 1 -->
+<div class="flex items-center justify-between pb-4 border-b border-gray-100">
+<div class="flex items-center">
+<img src="https://readdy.ai/api/search-image?query=A%2520close-up%2520of%2520a%2520perfectly%2520prepared%2520espresso%2520shot%2520in%2520a%2520small%2520white%2520cup%2520on%2520a%2520wooden%2520surface.%2520The%2520coffee%2520has%2520a%2520beautiful%2520crema%2520layer%2520on%2520top%2520with%2520rich%252C%2520dark%2520coffee%2520visible%2520beneath.%2520The%2520lighting%2520is%2520warm%2520and%2520professional%252C%2520highlighting%2520the%2520texture%2520and%2520color%2520of%2520the%2520espresso.%2520The%2520background%2520is%2520slightly%2520blurred%252C%2520suggesting%2520a%2520cozy%2520cafe%2520environment.&width=80&height=80&seq=coffee-espresso-cart&orientation=squarish" alt="Espresso" class="w-16 h-16 object-cover rounded mr-3">
+<div>
+<h4 class="font-medium text-gray-800">Espresso</h4>
+<p class="text-sm text-gray-500">₺30 x 2</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="text-primary font-bold mr-4">₺60</div>
+<button class="remove-item-btn text-gray-400 hover:text-red-500">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line"></i>
+</div>
+</button>
+</div>
+</div>
+<!-- Cart Item 2 -->
+<div class="flex items-center justify-between pb-4 border-b border-gray-100">
+<div class="flex items-center">
+<img src="https://readdy.ai/api/search-image?query=A%2520flat%2520white%2520coffee%2520in%2520a%2520small%2520ceramic%2520cup%2520on%2520a%2520saucer.%2520The%2520coffee%2520has%2520a%2520velvety%2520microfoam%2520with%2520minimal%2520latte%2520art%2520-%2520just%2520a%2520simple%2520white%2520dot%2520on%2520top.%2520The%2520cup%2520is%2520positioned%2520on%2520a%2520wooden%2520table%2520with%2520a%2520spoon%2520beside%2520it.%2520The%2520lighting%2520is%2520natural%2520and%2520bright%252C%2520highlighting%2520the%2520creamy%2520texture%2520of%2520the%2520coffee%2520against%2520the%2520white%2520cup.&width=80&height=80&seq=coffee-flatwhite-cart&orientation=squarish" alt="Flat White" class="w-16 h-16 object-cover rounded mr-3">
+<div>
+<h4 class="font-medium text-gray-800">Flat White</h4>
+<p class="text-sm text-gray-500">₺48 x 1</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="text-primary font-bold mr-4">₺48</div>
+<button class="remove-item-btn text-gray-400 hover:text-red-500">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+<!-- Cart Summary -->
+<div class="space-y-3 mb-6">
+<div class="flex justify-between text-gray-600">
+<span>Ara Toplam:</span>
+<span>₺108</span>
+</div>
+<div class="flex justify-between text-gray-600">
+<span>Teslimat Ücreti:</span>
+<span>₺15</span>
+</div>
+<div class="flex justify-between font-bold text-gray-800 text-lg pt-3 border-t border-gray-200">
+<span>Toplam:</span>
+<span>₺123</span>
+</div>
+</div>
+<!-- Delivery Information -->
+<div class="mb-6">
+<h3 class="font-bold text-gray-800 mb-4">Teslimat Bilgileri</h3>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Teslimat Adresi</label>
+<div class="relative">
+<select class="w-full px-4 py-3 rounded border-none bg-gray-50 focus:ring-2 focus:ring-primary appearance-none pr-8">
+<option value="">Kayıtlı adreslerinizden seçin</option>
+<option value="address1">Ev - Caferağa Mah. Moda Cad. No:45 D:3, Kadıköy</option>
+<option value="address2">İş - Bağdat Cad. No:112 K:5, Kadıköy</option>
+</select>
+<div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+<div class="w-4 h-4 flex items-center justify-center text-gray-500">
+<i class="ri-arrow-down-s-line"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2">Teslimat Notu</label>
+<textarea class="w-full px-4 py-3 rounded border-none bg-gray-50 focus:ring-2 focus:ring-primary" rows="2" placeholder="Siparişiniz için özel notlar..."></textarea>
+</div>
+</div>
+<!-- Payment Method -->
+<div class="mb-6">
+<h3 class="font-bold text-gray-800 mb-4">Ödeme Yöntemi</h3>
+<div class="space-y-3">
+<label class="flex items-center p-3 border border-gray-200 rounded cursor-pointer hover:bg-gray-50">
+<input type="radio" name="payment" value="credit-card" class="custom-radio mr-3" checked>
+<div class="flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-gray-600">
+<i class="ri-bank-card-line"></i>
+</div>
+<span>Kredi/Banka Kartı</span>
+</div>
+</label>
+<label class="flex items-center p-3 border border-gray-200 rounded cursor-pointer hover:bg-gray-50">
+<input type="radio" name="payment" value="cash" class="custom-radio mr-3">
+<div class="flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2 text-gray-600">
+<i class="ri-money-lira-circle-line"></i>
+</div>
+<span>Kapıda Nakit Ödeme</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Contact Information -->
+<div class="mb-6">
+<h3 class="font-bold text-gray-800 mb-4">İletişim Bilgileri</h3>
+<div class="grid grid-cols-1 gap-4">
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Ad Soyad</label>
+<input type="text" class="w-full px-4 py-3 rounded border-none bg-gray-50 focus:ring-2 focus:ring-primary" placeholder="Ad Soyad" value="Mehmet Yılmaz">
+</div>
+<div>
+<label class="block text-gray-700 text-sm font-medium mb-2">Telefon</label>
+<input type="tel" class="w-full px-4 py-3 rounded border-none bg-gray-50 focus:ring-2 focus:ring-primary" placeholder="Telefon Numarası" value="0532 123 45 67">
+</div>
+</div>
+</div>
+<!-- Checkout Button -->
+<button class="w-full bg-primary text-white py-4 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap">Siparişi Tamamla</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Cart Summary (Fixed at bottom) -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 z-40">
+<div class="flex justify-between items-center">
+<div class="flex flex-col">
+<span class="text-sm text-gray-600">Sepetinizde</span>
+<div class="text-gray-800 font-bold">
+<span class="cart-item-count">2</span> ürün • <span class="cart-total">₺123</span>
+</div>
+</div>
+<button class="view-cart-btn bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap flex items-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-shopping-cart-2-line"></i>
+</div>
+<span>Sepeti Görüntüle</span>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="bg-[#2C1810] text-white py-12">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<a href="#" class="text-3xl font-['Pacifico'] text-white mb-4 block">Moda Coffee Lab</a>
+<p class="text-gray-300 mb-6">Kahvenin ötesinde bir deneyim sunan üçüncü nesil kahve dükkanı.</p>
+<div class="flex space-x-4">
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-instagram-line ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-facebook-fill ri-lg"></i>
+</div>
+</a>
+<a href="#" class="text-gray-300 hover:text-white transition-colors">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-twitter-x-line ri-lg"></i>
+</div>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Hızlı Erişim</h3>
+<ul class="space-y-3">
+<li><a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-300 hover:text-white transition-colors">Ana Sayfa</a></li>
+<li><a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-300 hover:text-white transition-colors">Menü</a></li>
+<li><a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-300 hover:text-white transition-colors">Hakkımızda</a></li>
+<li><a href="https://readdy.ai/home/bf59640d-78a5-4397-8403-f8c081a547f4/23281685-c9e0-4880-bb00-70164032001d" data-readdy="true" class="text-gray-300 hover:text-white transition-colors">İletişim</a></li>
+<li><a href="index.html#workshop" class="text-gray-300 hover:text-white transition-colors">Workshop'lar</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">İletişim</h3>
+<ul class="space-y-3">
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-map-pin-line text-primary"></i>
+</div>
+<span class="text-gray-300">Caferağa Mah. Moda Cad. No:123, Kadıköy</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-phone-line text-primary"></i>
+</div>
+<span class="text-gray-300">+90 (216) 123 45 67</span>
+</li>
+<li class="flex items-start">
+<div class="w-5 h-5 flex items-center justify-center mr-2 mt-1">
+<i class="ri-mail-line text-primary"></i>
+</div>
+<span class="text-gray-300">info@modacoffeelab.com</span>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Çalışma Saatleri</h3>
+<ul class="space-y-3">
+<li class="flex justify-between">
+<span class="text-gray-300">Pazartesi - Cuma:</span>
+<span class="text-gray-300">08:00 - 22:00</span>
+</li>
+<li class="flex justify-between">
+<span class="text-gray-300">Cumartesi:</span>
+<span class="text-gray-300">09:00 - 23:00</span>
+</li>
+<li class="flex justify-between">
+<span class="text-gray-300">Pazar:</span>
+<span class="text-gray-300">09:00 - 23:00</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Moda Coffee Lab. Tüm hakları saklıdır.</p>
+<div class="flex space-x-6">
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Gizlilik Politikası</a>
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Kullanım Koşulları</a>
+<a href="#" class="text-gray-400 text-sm hover:text-white transition-colors">Çerez Politikası</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Back to Top Button -->
+<button id="backToTop" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 hover:bg-opacity-90 z-50">
+<i class="ri-arrow-up-line ri-lg"></i>
+</button>
+<!-- Scripts -->
+<script id="mobileMenuScript">
+document.addEventListener('DOMContentLoaded', function() {
+const mobileMenuButton = document.querySelector('.md\\:hidden');
+const mobileMenu = document.querySelector('.fixed.inset-0.bg-white');
+mobileMenuButton.addEventListener('click', function() {
+if (mobileMenu.classList.contains('hidden')) {
+mobileMenu.classList.remove('hidden');
+mobileMenu.classList.add('flex');
+document.body.style.overflow = 'hidden';
+} else {
+mobileMenu.classList.add('hidden');
+mobileMenu.classList.remove('flex');
+document.body.style.overflow = '';
+}
+});
+const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+mobileMenuLinks.forEach(link => {
+link.addEventListener('click', function() {
+mobileMenu.classList.add('hidden');
+mobileMenu.classList.remove('flex');
+document.body.style.overflow = '';
+});
+});
+});
+</script>
+<script id="scrollScript">
+document.addEventListener('DOMContentLoaded', function() {
+const backToTopButton = document.getElementById('backToTop');
+window.addEventListener('scroll', function() {
+if (window.pageYOffset > 300) {
+backToTopButton.classList.remove('opacity-0', 'invisible');
+backToTopButton.classList.add('opacity-100', 'visible');
+} else {
+backToTopButton.classList.add('opacity-0', 'invisible');
+backToTopButton.classList.remove('opacity-100', 'visible');
+}
+});
+backToTopButton.addEventListener('click', function() {
+window.scrollTo({
+top: 0,
+behavior: 'smooth'
+});
+});
+});
+</script>
+<script id="cartScript">
+document.addEventListener('DOMContentLoaded', function() {
+let cartItems = [];
+const deliveryFee = 15;
+const productsByCategory = {
+'hot-drinks': [
+{
+name: 'Ethiopia Yirgacheffe',
+price: 65,
+originalPrice: 75,
+description: 'Çiçeksi ve meyvemsi aromalara sahip, özel kavurma Etiyopya kahvesi.',
+image: 'https://static.readdy.ai/image/1bca1de28a0568aac9603a1d73ec255e/ebada7c6166f99043d12559252efb1df.png'
+},
+{
+name: 'Espresso',
+price: 30,
+description: 'İtalyan tarzı hazırlanan, yoğun ve güçlü karaktere sahip klasik espresso.',
+image: 'https://readdy.ai/api/search-image?query=A%2520close-up%2520of%2520a%2520perfectly%2520prepared%2520espresso%2520shot%2520in%2520a%2520small%2520white%2520cup%2520on%2520a%2520wooden%2520surface.%2520The%2520coffee%2520has%2520a%2520beautiful%2520crema%2520layer%2520on%2520top%2520with%2520rich%252C%2520dark%2520coffee%2520visible%2520beneath.%2520The%2520lighting%2520is%2520warm%2520and%2520professional%252C%2520highlighting%2520the%2520texture%2520and%2520color%2520of%2520the%2520espresso.%2520The%2520background%2520is%2520slightly%2520blurred%252C%2520suggesting%2520a%2520cozy%2520cafe%2520environment.&width=400&height=300&seq=coffee-espresso-order&orientation=landscape'
+},
+{
+name: 'Cappuccino',
+price: 45,
+description: 'Eşit oranda espresso, buharla ısıtılmış süt ve süt köpüğü ile hazırlanan İtalyan klasiği.',
+image: 'https://readdy.ai/api/search-image?query=A%2520beautifully%2520crafted%2520cappuccino%2520in%2520a%2520white%2520ceramic%2520cup%2520on%2520a%2520saucer.%2520The%2520coffee%2520features%2520perfect%2520latte%2520art%2520with%2520a%2520heart%2520design%2520on%2520top%2520of%2520the%2520creamy%2520microfoam.%2520The%2520cup%2520is%2520positioned%2520on%2520a%2520wooden%2520table%2520with%2520some%2520coffee%2520beans%2520scattered%2520nearby.%2520The%2520lighting%2520is%2520soft%2520and%2520warm%252C%2520creating%2520an%2520inviting%2520atmosphere%2520typical%2520of%2520a%2520high-end%2520coffee%2520shop.&width=400&height=300&seq=coffee-cappuccino-order&orientation=landscape'
+},
+{
+name: 'V60 Filtre Kahve',
+price: 50,
+description: 'El yapımı pour-over yöntemiyle hazırlanan, kahvenin tüm aromalarını ortaya çıkaran filtre kahve.',
+image: 'https://readdy.ai/api/search-image?query=A%2520pour-over%2520coffee%2520being%2520prepared%2520with%2520a%2520glass%2520V60%2520dripper.%2520Hot%2520water%2520is%2520being%2520carefully%2520poured%2520over%2520freshly%2520ground%2520coffee%2520in%2520a%2520circular%2520motion%252C%2520with%2520steam%2520rising.%2520Below%2520is%2520a%2520clear%2520glass%2520carafe%2520collecting%2520the%2520brewed%2520coffee.%2520The%2520scene%2520is%2520set%2520on%2520a%2520wooden%2520counter%2520with%2520coffee%2520beans%2520scattered%2520around%252C%2520creating%2520a%2520artisanal%2520coffee%2520preparation%2520atmosphere%2520with%2520warm%2520lighting.&width=400&height=300&seq=coffee-filter-order&orientation=landscape'
+},
+{
+name: 'Macchiato',
+price: 40,
+description: 'Espresso üzerine az miktarda süt köpüğü eklenerek hazırlanan İtalyan kahvesi.',
+image: 'https://readdy.ai/api/search-image?query=A%2520macchiato%2520coffee%2520in%2520a%2520small%2520glass%2520cup%2520showing%2520layers%2520of%2520espresso%2520and%2520a%2520small%2520amount%2520of%2520foamed%2520milk%2520on%2520top.%2520The%2520coffee%2520is%2520served%2520on%2520a%2520wooden%2520saucer%2520with%2520a%2520small%2520spoon.%2520The%2520scene%2520is%2520set%2520on%2520a%2520rustic%2520wooden%2520table%2520with%2520warm%2520lighting%2520highlighting%2520the%2520rich%2520colors%2520of%2520the%2520coffee.&width=400&height=300&seq=coffee-macchiato&orientation=landscape'
+},
+{
+name: 'Flat White',
+price: 48,
+description: 'Avustralya kökenli, iki shot espresso üzerine kadifemsi mikroköpüklü süt ile hazırlanan özel içecek.',
+image: 'https://readdy.ai/api/search-image?query=A%2520flat%2520white%2520coffee%2520in%2520a%2520small%2520ceramic%2520cup%2520on%2520a%2520saucer.%2520The%2520coffee%2520has%2520a%2520velvety%2520microfoam%2520with%2520minimal%2520latte%2520art%2520-%2520just%2520a%2520simple%2520white%2520dot%2520on%2520top.%2520The%2520cup%2520is%2520positioned%2520on%2520a%2520wooden%2520table%2520with%2520a%2520spoon%2520beside%2520it.%2520The%2520lighting%2520is%2520natural%2520and%2520bright%252C%2520highlighting%2520the%2520creamy%2520texture%2520of%2520the%2520coffee%2520against%2520the%2520white%2520cup.&width=400&height=300&seq=coffee-flatwhite-order&orientation=landscape'
+},
+{
+name: 'Türk Kahvesi',
+price: 35,
+description: 'Geleneksel yöntemle cezve içinde pişirilen, özel harmanlanmış çekirdeklerden hazırlanan Türk kahvesi.',
+image: 'https://readdy.ai/api/search-image?query=A%2520Turkish%2520coffee%2520served%2520in%2520a%2520traditional%2520small%2520copper%2520pot%2520%2528cezve%2529%2520with%2520a%2520matching%2520copper%2520cup%2520beside%2520it.%2520The%2520coffee%2520is%2520topped%2520with%2520rich%2520foam%2520and%2520served%2520with%2520a%2520glass%2520of%2520water%2520and%2520a%2520piece%2520of%2520Turkish%2520delight%2520on%2520a%2520small%2520decorative%2520plate.%2520The%2520setting%2520is%2520on%2520a%2520rustic%2520wooden%2520table%2520with%2520some%2520coffee%2520beans%2520scattered%2520around%252C%2520creating%2520an%2520authentic%2520presentation.&width=400&height=300&seq=coffee-turkish-order&orientation=landscape'
+}
+],
+'cold-drinks': [
+{
+name: 'Cold Brew',
+price: 45,
+description: '24 saat boyunca soğuk demleme yöntemiyle hazırlanan, pürüzsüz içimli kahve.',
+image: 'https://readdy.ai/api/search-image?query=A%2520tall%2520glass%2520of%2520cold%2520brew%2520coffee%2520with%2520ice%2520cubes%2520on%2520a%2520wooden%2520table.%2520The%2520glass%2520shows%2520the%2520rich%2520dark%2520color%2520of%2520the%2520coffee%2520with%2520condensation%2520on%2520the%2520outside.%2520Some%2520coffee%2520beans%2520are%2520scattered%2520around%2520the%2520base.%2520The%2520lighting%2520is%2520bright%2520and%2520natural%252C%2520emphasizing%2520the%2520refreshing%2520nature%2520of%2520the%2520drink.&width=400&height=300&seq=coffee-coldbrew-order&orientation=landscape'
+},
+{
+name: 'Buzlu Latte',
+price: 42,
+description: 'Soğuk süt ve espresso shot ile hazırlanan, serinletici kahve içeceği.',
+image: 'https://readdy.ai/api/search-image?query=An%2520iced%2520latte%2520in%2520a%2520tall%2520glass%2520with%2520a%2520straw.%2520The%2520drink%2520shows%2520beautiful%2520layers%2520of%2520coffee%2520and%2520milk%2520with%2520ice%2520cubes.%2520Condensation%2520on%2520the%2520glass%2520suggests%2520its%2520refreshing%2520coldness.%2520The%2520background%2520is%2520clean%2520and%2520minimal%252C%2520focusing%2520on%2520the%2520drink.&width=400&height=300&seq=coffee-icedlatte-order&orientation=landscape'
+}
+],
+'desserts': [
+{
+name: 'Cheesecake',
+price: 55,
+description: 'New York stili, kremsi dokulu, ev yapımı cheesecake.',
+image: 'https://readdy.ai/api/search-image?query=A%2520slice%2520of%2520classic%2520New%2520York%2520cheesecake%2520on%2520a%2520white%2520plate.%2520The%2520cheesecake%2520has%2520a%2520perfect%2520golden%2520brown%2520top%2520and%2520creamy%2520center%252C%2520garnished%2520with%2520fresh%2520berries.%2520The%2520lighting%2520is%2520soft%2520and%2520warm%252C%2520highlighting%2520the%2520smooth%2520texture%2520of%2520the%2520dessert.&width=400&height=300&seq=dessert-cheesecake-order&orientation=landscape'
+},
+{
+name: 'Brownie',
+price: 40,
+description: 'Belçika çikolatası ile hazırlanan, içi nemli, dışı çıtır brownie.',
+image: 'https://readdy.ai/api/search-image?query=A%2520rich%2520chocolate%2520brownie%2520square%2520on%2520a%2520wooden%2520board.%2520The%2520brownie%2520has%2520a%2520crackly%2520top%2520and%2520looks%2520fudgy%2520inside.%2520It%2527s%2520dusted%2520with%2520cocoa%2520powder%2520and%2520served%2520with%2520a%2520small%2520scoop%2520of%2520vanilla%2520ice%2520cream.%2520The%2520lighting%2520is%2520warm%2520and%2520inviting.&width=400&height=300&seq=dessert-brownie-order&orientation=landscape'
+}
+],
+'coffee-beans': [
+{
+name: 'Colombia Supremo',
+price: 180,
+description: 'Yüksek rakımlı Colombia Supremo çekirdekleri, 250g paket.',
+image: 'https://readdy.ai/api/search-image?query=A%2520premium%2520package%2520of%2520Colombian%2520coffee%2520beans%2520on%2520a%2520wooden%2520surface.%2520The%2520beans%2520are%2520perfectly%2520roasted%2520to%2520a%2520medium-dark%2520color%2520and%2520have%2520a%2520glossy%2520appearance.%2520Some%2520beans%2520are%2520artfully%2520scattered%2520around%2520the%2520package.%2520The%2520lighting%2520is%2520professional%2520and%2520warm.&width=400&height=300&seq=coffee-beans-colombia-order&orientation=landscape'
+},
+{
+name: 'Ethiopia Yirgacheffe Beans',
+price: 200,
+description: 'Çiçeksi aromaya sahip Ethiopia Yirgacheffe çekirdekleri, 250g paket.',
+image: 'https://readdy.ai/api/search-image?query=A%2520premium%2520package%2520of%2520Ethiopian%2520Yirgacheffe%2520coffee%2520beans%2520displayed%2520on%2520a%2520rustic%2520wooden%2520surface.%2520The%2520beans%2520are%2520light-medium%2520roasted%2520showing%2520their%2520characteristic%2520color.%2520Some%2520whole%2520beans%2520are%2520arranged%2520around%2520the%2520package%2520along%2520with%2520some%2520Ethiopian%2520coffee%2520flowers.%2520The%2520lighting%2520is%2520natural%2520and%2520bright.&width=400&height=300&seq=coffee-beans-ethiopia-order&orientation=landscape'
+}
+]
+};
+function addTouchSupport(element, handler) {
+element.addEventListener('touchstart', function(e) {
+e.preventDefault();
+handler.call(this, e);
+});
+element.addEventListener('click', function(e) {
+e.preventDefault();
+handler.call(this, e);
+});
+}
+function updateMobileCartDisplay() {
+const itemCount = cartItems.length;
+const total = cartItems.reduce((sum, item) => sum + item.total, 0) + deliveryFee;
+document.querySelector('.cart-item-count').textContent = itemCount;
+document.querySelector('.cart-total').textContent = `₺${total}`;
+}
+const toastContainer = document.createElement('div');
+toastContainer.id = 'toastContainer';
+toastContainer.className = 'fixed top-4 right-4 z-50 w-80 space-y-2';
+document.body.appendChild(toastContainer);
+function initializeCart() {
+const existingItems = document.querySelectorAll('#cart-items > div');
+existingItems.forEach(item => {
+const name = item.querySelector('h4').textContent;
+const priceText = item.querySelector('p.text-sm.text-gray-500').textContent;
+const quantity = parseInt(priceText.split('x')[1].trim());
+const price = parseInt(priceText.split('₺')[1].split('x')[0].trim());
+const image = item.querySelector('img').src;
+cartItems.push({
+name,
+price,
+quantity,
+image,
+total: price * quantity
+});
+});
+}
+function setupQuantityButtons() {
+const decrementButtons = document.querySelectorAll('.decrement-btn');
+const incrementButtons = document.querySelectorAll('.increment-btn');
+const quantityInputs = document.querySelectorAll('input[type="number"]');
+decrementButtons.forEach((button, index) => {
+button.addEventListener('click', function(e) {
+e.preventDefault();
+const input = quantityInputs[index];
+const currentValue = parseInt(input.value);
+if (currentValue > 1) {
+input.value = currentValue - 1;
+}
+});
+});
+incrementButtons.forEach((button, index) => {
+button.addEventListener('click', function(e) {
+e.preventDefault();
+const input = quantityInputs[index];
+const currentValue = parseInt(input.value);
+input.value = currentValue + 1;
+});
+});
+}
+function setupAddToCartButtons() {
+const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+addToCartButtons.forEach(button => {
+button.addEventListener('click', function(e) {
+e.preventDefault();
+const productCard = this.closest('.bg-white.rounded-lg');
+const productName = productCard.querySelector('h3').textContent;
+const productPrice = parseInt(productCard.querySelector('.text-primary.font-bold').textContent.replace('₺', ''));
+const quantity = parseInt(productCard.querySelector('input[type="number"]').value);
+const productImage = productCard.querySelector('img').src;
+const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+if (existingItemIndex > -1) {
+cartItems[existingItemIndex].quantity += quantity;
+cartItems[existingItemIndex].total = cartItems[existingItemIndex].quantity * cartItems[existingItemIndex].price;
+} else {
+cartItems.push({
+name: productName,
+price: productPrice,
+quantity: quantity,
+image: productImage,
+total: productPrice * quantity
+});
+}
+updateCartDisplay();
+showToast(productName, `₺${productPrice}`, quantity);
+});
+});
+}
+function updateCartDisplay() {
+const cartContainer = document.getElementById('cart-items');
+cartContainer.innerHTML = '';
+updateMobileCartDisplay();
+cartItems.forEach((item, index) => {
+const itemElement = document.createElement('div');
+itemElement.className = 'flex items-center justify-between pb-4 border-b border-gray-100';
+itemElement.innerHTML = `
+<div class="flex items-center">
+<img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded mr-3">
+<div>
+<h4 class="font-medium text-gray-800">${item.name}</h4>
+<p class="text-sm text-gray-500">₺${item.price} x ${item.quantity}</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="text-primary font-bold mr-4">₺${item.total}</div>
+<button class="remove-item-btn text-gray-400 hover:text-red-500" data-index="${index}">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line"></i>
+</div>
+</button>
+</div>
+`;
+cartContainer.appendChild(itemElement);
+});
+const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+const total = subtotal + deliveryFee;
+document.querySelector('.space-y-3.mb-6 div:nth-child(1) span:last-child').textContent = `₺${subtotal}`;
+document.querySelector('.space-y-3.mb-6 div:last-child span:last-child').textContent = `₺${total}`;
+document.querySelectorAll('.remove-item-btn').forEach(button => {
+button.addEventListener('click', function() {
+const index = parseInt(this.dataset.index);
+cartItems.splice(index, 1);
+updateCartDisplay();
+});
+});
+}
+function showToast(productName, productPrice, quantity) {
+const toast = document.createElement('div');
+toast.className = 'bg-white rounded-lg shadow-lg overflow-hidden transform translate-x-full transition-transform duration-300';
+toast.innerHTML = `
+<div class="p-4">
+<div class="flex items-center mb-3">
+<div class="w-6 h-6 flex items-center justify-center text-green-500 mr-2">
+<i class="ri-checkbox-circle-fill ri-lg"></i>
+</div>
+<span class="font-medium text-gray-800">Ürün Sepete Eklendi</span>
+</div>
+<div class="mb-3">
+<p class="text-gray-800 font-medium">${productName}</p>
+<p class="text-gray-600 text-sm">${quantity} adet × ${productPrice}</p>
+</div>
+<div class="flex space-x-2">
+<button onclick="document.getElementById('cart-items').scrollIntoView({behavior: 'smooth'})" class="flex-1 bg-primary text-white px-3 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">
+Sepeti Görüntüle
+</button>
+<button onclick="this.closest('#toastContainer > div').remove()" class="px-3 py-2 text-gray-600 hover:text-gray-800 text-sm whitespace-nowrap">
+Alışverişe Devam Et
+</button>
+</div>
+</div>
+`;
+document.getElementById('toastContainer').appendChild(toast);
+requestAnimationFrame(() => {
+toast.classList.remove('translate-x-full');
+});
+setTimeout(() => {
+toast.classList.add('translate-x-full');
+setTimeout(() => toast.remove(), 300);
+}, 4000);
+}
+function setupCategoryButtons() {
+const categoryButtons = document.querySelectorAll('.category-btn');
+const productsGrid = document.querySelector('.grid.grid-cols-1');
+function displayProducts(category) {
+const products = productsByCategory[category];
+if (!products) return;
+productsGrid.innerHTML = '';
+products.forEach(product => {
+const productCard = document.createElement('div');
+productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg';
+productCard.innerHTML = `
+<div class="relative">
+<img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover object-top">
+</div>
+<div class="p-4">
+<h3 class="text-lg font-bold text-gray-800 mb-1">${product.name}</h3>
+<p class="text-gray-600 text-sm mb-3 h-10">${product.description}</p>
+<div class="flex justify-between items-center mb-3">
+${product.originalPrice ? 
+`<div class="flex items-center">
+<span class="text-gray-400 line-through mr-2">₺${product.originalPrice}</span>
+<span class="text-primary font-bold">₺${product.price}</span>
+</div>` : 
+`<span class="text-primary font-bold">₺${product.price}</span>`}
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center border border-gray-300 rounded-button overflow-hidden">
+<button class="decrement-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-subtract-line"></i>
+</button>
+<input type="number" value="1" min="1" class="w-10 h-8 text-center border-none text-sm">
+<button class="increment-btn w-8 h-8 flex items-center justify-center bg-gray-100 text-gray-600 hover:bg-gray-200">
+<i class="ri-add-line"></i>
+</button>
+</div>
+<button class="add-to-cart-btn bg-primary text-white px-4 py-2 !rounded-button text-sm hover:bg-opacity-90 transition-colors whitespace-nowrap">Sepete Ekle</button>
+</div>
+</div>
+`;
+productsGrid.appendChild(productCard);
+});
+setupQuantityButtons();
+setupAddToCartButtons();
+}
+categoryButtons.forEach(button => {
+button.addEventListener('click', function(e) {
+e.preventDefault();
+categoryButtons.forEach(btn => {
+if (btn !== this) {
+btn.classList.remove('bg-primary', 'text-white');
+btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+}
+});
+this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-50');
+this.classList.add('bg-primary', 'text-white');
+const category = this.querySelector('span').textContent.trim().toLowerCase();
+let categoryKey;
+switch(category) {
+case 'sıcak i̇çecekler':
+categoryKey = 'hot-drinks';
+break;
+case 'soğuk i̇çecekler':
+categoryKey = 'cold-drinks';
+break;
+case 'tatlılar':
+categoryKey = 'desserts';
+break;
+case 'kahve çekirdekleri':
+categoryKey = 'coffee-beans';
+break;
+}
+displayProducts(categoryKey);
+});
+});
+// Display hot drinks by default
+displayProducts('hot-drinks');
+}
+const viewCartBtn = document.querySelector('.view-cart-btn');
+if (viewCartBtn) {
+viewCartBtn.addEventListener('click', function() {
+window.scrollTo({
+top: document.querySelector('#cart-items').offsetTop - 100,
+behavior: 'smooth'
+});
+});
+}
+initializeCart();
+setupQuantityButtons();
+setupAddToCartButtons();
+setupCategoryButtons();
+updateCartDisplay();
+});
+</script>
+</body>
+</html>
